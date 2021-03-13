@@ -1,0 +1,62 @@
+@import '../../components/_mixins';
+$header_HEIGHT: 54px;
+
+$view__HAV_HEIGHT: 54px;
+
+
+.view__NAVIGATION {
+    height: $view__HAV_HEIGHT;
+    background-color: $COLOR_VIEW_NAV_BG;
+    @include position_fixed(0,0,auto,280px,2);
+    box-shadow: 0 0 12px -6px #222;
+
+    .right__NAV {
+        height: $view__HAV_HEIGHT;
+        float: right;
+        padding-right: 14px;
+    }
+
+    .nav__ITEM {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            /*fill: #222;
+            height: auto;*/
+            //width: 26px;
+        }
+
+        &.small {
+            width: $view__HAV_HEIGHT;
+            height: $view__HAV_HEIGHT;
+        }
+
+        &.button {
+            min-width: $view__HAV_HEIGHT;
+            height: $view__HAV_HEIGHT;
+
+            &.upp {
+                button {
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+.view__NAVIGATION + .view__CONTAINER {
+    top: $view__HAV_HEIGHT;
+}
+
+.view__CONTAINER {
+    @include position_fixed(0,0,0,280px);
+    background-color: $COLOR_VIEW_CONTAINER;
+
+    overflow: {
+        x: hidden;
+        y: auto;
+    }
+}

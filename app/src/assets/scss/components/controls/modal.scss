@@ -1,0 +1,23 @@
+@import '../_mixins';
+
+.modal__DEFAULT {
+    .component__Modal__VIEW {
+        &:before {
+            border-radius: 0;
+        }
+    }
+
+    &.lg {
+        width: 1280px;
+        max-width: calc(100vw - 100px);
+    }
+}
+
+.modal__CONTAINER {
+    .scrollableModalContent {
+        &.ms-Modal-scrollableContent {
+            overflow: hidden;
+            max-height: calc(100vh - 32px);
+        }
+    }
+}

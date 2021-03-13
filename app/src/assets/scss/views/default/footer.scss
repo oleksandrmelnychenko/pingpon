@@ -1,0 +1,26 @@
+@import '../../components/_mixins';
+
+.footer {
+    width: calc(100vw);
+    height: 30px;
+    @include position_absolute(auto,0,0,0);
+
+    .dev_ver {
+        float: right;
+        padding-top: 6px;
+        position: relative;
+        z-index: 10;
+        padding-right: 20px;
+
+        font: {
+            family: $font_DEFAULT;
+            weight: 600;
+            size: 12px;
+        }
+
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        transform: scaleY(.9);
+        color: #222;
+    }
+}

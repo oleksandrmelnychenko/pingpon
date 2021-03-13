@@ -1,0 +1,7 @@
+@import '../../components/_mixins';
+
+.content__CONTAINER {
+    @include position_fixed(0,0,0,0,1);
+    background-color: #fff;
+    overflow: hidden;
+}

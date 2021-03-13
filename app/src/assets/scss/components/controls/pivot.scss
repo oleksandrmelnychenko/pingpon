@@ -1,0 +1,65 @@
+@import '../_mixins';
+
+.pivot__COMPONENT {
+    .ms-FocusZone {
+        display: flex;
+        justify-content: center;
+
+        .ms-Button {
+            font-family: $font_DEFAULT;
+            // text-transform: uppercase;
+            min-width: 260px;
+            //padding: 0px 0;
+            margin-right: 0;
+
+            .ms-Pivot-text {
+                font-family: $font_DEFAULT;
+                //color: #73c16f;
+                //font-weight: 600;
+            }
+
+            &:before {
+                background-color: rgba(#5e6c84,.1);
+            }
+
+            &.ms-Pivot-link.is-selected {
+                &:before {
+                    //background-color: #73c16f;
+                }
+            }
+        }
+    }
+}
+
+.tabs__EditTask__COMPONENT {
+    &.pending_Task__COMPONENT {
+        height: 100%;
+
+        .ant-tabs-content-holder {
+            height: 100%;
+
+            .ant-tabs-content {
+                height: 100%;
+                position: relative;
+
+                .stack__tasks__CONTAINER.mod__TASKS {
+                    top: 0;
+                    width: 580px;
+                }
+            }
+        }
+    }
+}
+
+.pendingTask__ShimmeredDetailsList {
+    .ms-DetailsHeader {
+        padding-top: 0 !important;
+    }
+}
+
+.gstc__list-column-row {
+    &:hover {
+        background-color: #f5f5f5;
+    }
+}
+
