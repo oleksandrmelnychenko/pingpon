@@ -32,9 +32,7 @@ export const UserMenuItems: React.FC = () => {
     ]
 
     const OperatorMenu = [
-        //{ route: routes.DASHBOARD_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.DASHBOARD_MODULE_URI)), name: "Dashboard" },
-        //{ route: routes.USER_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.USER_MODULE_URI)), name: "Users" },
-        //{ route: routes.PROJECT_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.PROJECT_MODULE_URI)), name: "Projects" },
+        { route: routes.USER_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.USER_MODULE_URI)), name: "Users" },
     ]
 
     const UserMenu = [

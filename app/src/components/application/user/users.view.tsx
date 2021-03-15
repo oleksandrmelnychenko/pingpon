@@ -48,7 +48,7 @@ export const UsersView: React.FC = () => {
             width: '160px',
             align: 'right',
             render: (NetUid, selectedUser) => <>
-                <Button onClick={() => { userSelection({ NetUid, selectedUser }) }} type="primary" size={"small"} style={{ marginRight: 4 }}>edit</Button>
+                <Button disabled={permision({ NetUid, selectedUser })} onClick={() => { userSelection({ NetUid, selectedUser }) }} type="primary" size={"small"} style={{ marginRight: 4 }}>edit</Button>
                 <Popconfirm
                     placement="topRight"
                     title={"Remove user ?"}
@@ -56,7 +56,7 @@ export const UsersView: React.FC = () => {
                     okText="Yes"
                     cancelText="Cancel"
                 >
-                    <Button type="primary" size={"small"} danger>remove</Button>
+                    <Button disabled={permision({ NetUid, selectedUser })} type="primary" size={"small"} danger>remove</Button>
                 </Popconfirm>
             </>,
         }
@@ -77,6 +77,16 @@ export const UsersView: React.FC = () => {
             return hTable.clientHeight - 100
         } else {
             return 600
+        }
+    }
+
+    const permision = (user) => {
+        if ((GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator || (GetIdentityRole(authenticationUser.role) === user.selectedUser.IdentityRole))) {
+            debugger
+            return false
+        } else {
+            debugger
+            return true
         }
     }
 
@@ -110,8 +120,7 @@ export const UsersView: React.FC = () => {
                         </div>
 
                         {
-                            (GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator ||
-                                GetIdentityRole(authenticationUser.role) === IdentityRoles.Operator) ?
+                            (GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator) ?
                                 <div className="controls__RIGHT">
                                     <Button type="primary" onClick={onCreateProject}> Create User</Button>
                                 </div> : null

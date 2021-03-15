@@ -9,6 +9,8 @@ import { Button, Tabs } from "antd";
 import { useParams } from "react-router";
 import { List } from 'linq-typescript';
 import * as Antd from "antd";
+import { GetIdentityRole } from "../../../helpers/role.helper";
+import { IdentityRoles } from "../../../entities/IdentityRoles";
 
 export const UserProfileView: React.FC = () => {
     const dispatch = useDispatch();
@@ -21,7 +23,8 @@ export const UserProfileView: React.FC = () => {
     const roles = useSelector<IApplicationState, any[]>(state => state.userManagement.userRoles)
     const selectedRole = useSelector<IApplicationState, string>(state => state.userManagement.selectedRole)
     const selectedUser = useSelector<IApplicationState, UserProfile>(state => state.userManagement.selectedUserProfile)
-    console.log(selectedUser)
+    const authenticationUser = useSelector<IApplicationState, any>((state) => state.authentication)
+    console.log(authenticationUser);
 
     useEffect(() => {
 
@@ -110,7 +113,11 @@ export const UserProfileView: React.FC = () => {
                                     onSubmit={(values) => {
                                         let roleDescription = getIdentityRoleModel(values.role.toString());
 
-                                        if (selectedUser.Id > 0 && userProfileId) {
+                                        if (
+                                            selectedUser.Id > 0 && userProfileId &&
+                                            (GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator) ||
+                                            GetIdentityRole(authenticationUser.role) === IdentityRoles.Operator
+                                        ) {
                                             const data: any = {
                                                 ...selectedUser,
                                                 Email: values.email,
@@ -122,7 +129,7 @@ export const UserProfileView: React.FC = () => {
                                             }
                                             debugger
                                             dispatch(userManagementActions.apiUpdateUser(data))
-                                        } else {
+                                        } else if ((GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator)) {
                                             const data: any = {
                                                 ...selectedUser,
                                                 Email: values.email,

@@ -15,7 +15,7 @@ export const AdminRoute: React.FC = () => {
 export const OperatorRoute: React.FC = () => {
 
     return <Switch>
-      
+        <Route path={`${routes.USER_MODULE_URI}`} component={UsersModule} />
     </Switch>
 }
 
