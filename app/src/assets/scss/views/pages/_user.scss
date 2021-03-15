@@ -1,7 +1,6 @@
 @import '../../components/_mixins';
 
 .allUsers__PAGE {
-    @include position_fixed(0,0,0,0);
 
     .page__CONTENT {
         @include position_absolute(20px,0,20px,20px);

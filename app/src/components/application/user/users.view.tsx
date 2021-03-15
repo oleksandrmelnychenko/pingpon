@@ -64,36 +64,40 @@ export const UsersView: React.FC = () => {
     }
 
     const userSelection = (user) => {
-          
+
         dispatch(userManagementActions.setUserProfile(user.selectedUser))
         history.push(routes.USER_EDIT_URI + user.NetUid)
     }
 
     return (
-        <div className="allUsers__PAGE">
-            <div className="page__CONTENT" style={{ height: 720 }}>
-                <Table
-                    columns={userProfilesColumns}
-                    dataSource={userProfiles}
-                    size={"small"}
-                    pagination={false}
-                    scroll={{ y: getHeight() }}
-                    rowKey={record => record.NetUid}
-                    bordered
-                />
-                <div className={'pagination__CONTAINER'} style={{ marginTop: 10 }}>
-                    <Pagination
-                        showSizeChanger
-                        defaultCurrent={1}
-                        total={10}
-                        onChange={(page, pageSize) => {
-                            dispatch(userManagementActions.setFilterDescriptor({
-                                ...filterDescriptor,
-                                limit: pageSize,
-                                offset: pageSize * (page - 1)
-                            }))
-                        }}
-                    />
+        <div className="content__CONTAINER">
+            <div className="component__UserManagment__VIEW">
+                <div className="allUsers__PAGE">
+                    <div className="page__CONTENT" style={{ height: 720 }}>
+                        <Table
+                            columns={userProfilesColumns}
+                            dataSource={userProfiles}
+                            size={"small"}
+                            pagination={false}
+                            scroll={{ y: getHeight() }}
+                            rowKey={record => record.NetUid}
+                            bordered
+                        />
+                        <div className={'pagination__CONTAINER'} style={{ marginTop: 10 }}>
+                            <Pagination
+                                showSizeChanger
+                                defaultCurrent={1}
+                                total={10}
+                                onChange={(page, pageSize) => {
+                                    dispatch(userManagementActions.setFilterDescriptor({
+                                        ...filterDescriptor,
+                                        limit: pageSize,
+                                        offset: pageSize * (page - 1)
+                                    }))
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

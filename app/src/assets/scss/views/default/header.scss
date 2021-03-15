@@ -1,62 +1,139 @@
 @import '../../components/_mixins';
 $header_HEIGHT: 54px;
 
-$view__HAV_HEIGHT: 54px;
+.header {
+    width: calc(100vw);
+    height: $header_HEIGHT;
+    position: relative;
+    //box-shadow: 0 0 12px -12px #222;
+    z-index: 3;
+    background-color: #fff;
 
-
-.view__NAVIGATION {
-    height: $view__HAV_HEIGHT;
-    background-color: $COLOR_VIEW_NAV_BG;
-    @include position_fixed(0,0,auto,280px,2);
-    box-shadow: 0 0 12px -6px #222;
-
-    .right__NAV {
-        height: $view__HAV_HEIGHT;
-        float: right;
-        padding-right: 14px;
+    &:before {
+        content: '';
+        @include position_absolute(calc(100%),0,auto,0);
+        height: 4px;
+        background: linear-gradient(180deg,rgba(9,30,66,0.13) 0,rgba(9,30,66,0.13) 1px,rgba(9,30,66,0.08) 1px,rgba(9,30,66,0) 4px);
     }
 
-    .nav__ITEM {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
+    .header__LOGO {
+        height: $header_HEIGHT;
+        font-family: $font_app;
+        font-size: 30px;
+        font-weight: 300;
+        display: inline;
+        line-height: $header_HEIGHT;
+        padding-left: 20px;
 
-        svg {
-            /*fill: #222;
-            height: auto;*/
-            //width: 26px;
+        .lucyd__LOGO {
+            font-family: $font_app;
+            font-size: 24px;
+            font-weight: 300;
+            display: inline;
+            line-height: $header_HEIGHT;
         }
 
-        &.small {
-            width: $view__HAV_HEIGHT;
-            height: $view__HAV_HEIGHT;
-        }
+        > div:not(.lucyd__LOGO) {
+            text-transform: uppercase;
+            display: inline-block;
+            font-size: 13px;
+            padding-left: 30px;
+            font-weight: 600;
+            line-height: 6px;
+            height: 18px;
+            position: relative;
+            font-family: $font_DEFAULT;
 
-        &.button {
-            min-width: $view__HAV_HEIGHT;
-            height: $view__HAV_HEIGHT;
+            &.tTop {
+                transform: translateY(-2px);
+            }
 
-            &.upp {
-                button {
-                    text-transform: uppercase;
-                    font-weight: 600;
-                    font-size: 12px;
+            > span {
+                display: block;
+                font-size: 10px;
+                min-height: 6px;
+            }
+
+            .header__COL {
+                line-height: 18px;
+                font-size: 13px;
+                float: left;
+                height: 18px;
+                padding-right: 18px;
+                position: relative;
+                font-family: $font_DEFAULT;
+
+                &.isLine {
+                    padding-left: 15px;
+
+                    &:before {
+                        content: '';
+                        @include position_absolute(1px,auto,1px,0px);
+                        border-left: 1px solid #222;
+                    }
                 }
+
+                .name__VALUE,
+                .header__EDIT {
+                    display: inline-block;
+                }
+
+                .header__EDIT {
+                    padding-left: 10px;
+
+                    > svg {
+                        transform: translateY(-2px);
+                        width: 16px;
+                        height: auto;
+                        fill: #1890ff;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+
+                        svg {
+                            fill: rgba(#1890ff,.8);
+                        }
+                    }
+                }
+            }
+
+            &:before {
+                content: '';
+                @include position_absolute(1px,auto,1px,16px);
+                border-left: 1px solid #222;
             }
         }
     }
-}
 
-.view__NAVIGATION + .view__CONTAINER {
-    top: $view__HAV_HEIGHT;
-}
+    .component__Notification {
+        @include position_absolute(0,0,0,auto);
+        line-height: 44px;
+        font-family: $font_DEFAULT;
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.7px;
+        color: #3d3d3d;
+        text-transform: uppercase;
+        padding: 0 26px 0 16px;
+        cursor: pointer;
 
-.view__CONTAINER {
-    @include position_fixed(0,0,0,280px);
-    background-color: $COLOR_VIEW_CONTAINER;
+        &:before {
+            content: '';
+            @include position_absolute(50%,0,auto,auto);
+            @include transform_translate(0,-50%);
+            height: 30px;
+            height: 54px;
+            border-right: 1px solid #d0d0d0;
+        }
 
-    overflow: {
-        x: hidden;
-        y: auto;
+        .ant-badge {
+            .anticon {
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+        }
     }
 }

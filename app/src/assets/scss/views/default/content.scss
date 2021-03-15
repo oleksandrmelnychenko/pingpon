@@ -1,7 +1,8 @@
 @import '../../components/_mixins';
 
 .content__CONTAINER {
-    @include position_fixed(0,0,0,0,1);
-    background-color: #fff;
-    overflow: hidden;
+    width: calc(100vw - 240px);
+    max-width: calc(100vw - 240px);
+    margin: 0 auto;
+    @include position_absolute(54px,0,30px,240px,1);
 }

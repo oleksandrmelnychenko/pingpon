@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit'
 export type ControlState = {
     isMenuOpen: boolean,
     isGlobalShimmerActive: boolean,
+    isSelectedUrl: string
 }
 
 export const DefaultControlState: ControlState = {
     isMenuOpen: false,
     isGlobalShimmerActive: false,
+    isSelectedUrl: '',
 }
 
 const controlSlice = createSlice({
@@ -29,6 +31,9 @@ const controlSlice = createSlice({
             return Object.assign(state, {
                 isGlobalShimmerActive: false,
             } as ControlState)
+        },
+        selectUrl(state, action: { type: string, payload: string }) {
+            state.isSelectedUrl = action.payload
         },
     }
 });

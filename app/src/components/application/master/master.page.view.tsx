@@ -6,6 +6,8 @@ import { IdentityRoles } from '../../../entities/IdentityRoles';
 import { GetIdentityRole } from '../../../helpers/role.helper';
 import { AdminRoute, OperatorRoute, UserRoute } from '../../../helpers/user.routes';
 import { IApplicationState } from '../../../reducers/application.state';
+import Header from '../default.components/header';
+import MenuComponent from '../default.components/menu';
 
 const MasterPageView: React.FC = () => {
     const dispatch = useDispatch()
@@ -62,7 +64,10 @@ const MasterPageView: React.FC = () => {
     //}, [connection]);
 
     return (
-        <div className="content__CONTAINER">
+        <div className="component__MasterPage_VIEW">
+            <Header />
+            <MenuComponent />
+
             <Switch>
                 <Redirect
                     exact={true}
