@@ -81,7 +81,9 @@ export const UsersView: React.FC = () => {
     }
 
     const permision = (user) => {
-        if ((GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator || (GetIdentityRole(authenticationUser.role) === user.selectedUser.IdentityRole))) {
+        if ((GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator ||
+            (GetIdentityRole(authenticationUser.role) === user.selectedUser.IdentityRole ||
+                user.selectedUser.RoleDescription === 'User'))) {
             debugger
             return false
         } else {
