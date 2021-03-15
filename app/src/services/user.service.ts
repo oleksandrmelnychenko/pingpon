@@ -91,8 +91,35 @@ export const GetUsers = (action$, state$: IServiceApplicationState) =>
         })
     )
 
+export const GetUserProfileById = (action$, state$: IServiceApplicationState) =>
+    action$.pipe(
+        ofType(userManagementActions.apiGetUserProfileByNetId.type),
 
-export const GetRoless = (action$, state$: IServiceApplicationState) =>
+        switchMap((action: any) => {
+            return ajax
+                .getJSON(
+                    `${API.SERVER_URL}${API.UserIdentityEndPoints.GET_USER_PROFILE_BY_USER_NET_ID}${action.payload}`,
+                    {
+                        Authorization: `Bearer ${state$.value.authentication.token}`,
+                        'Content-Type': 'application/json',
+                    }
+                )
+                .pipe(
+                    mergeMap((response: any) => {
+                        
+                        return of(
+                            userManagementActions.setUserProfile(response.Body),
+                            userManagementActions.apiGetRoles(),
+                        )
+                    }),
+                    catchError((error: any) => {
+                        return ErrorHandler(error)
+                    })
+                )
+        })
+    )
+
+export const GetRoles = (action$, state$: IServiceApplicationState) =>
     action$.pipe(
         ofType(userManagementActions.apiGetRoles.type),
         switchMap((action: any) => {
@@ -119,12 +146,11 @@ export const GetRoless = (action$, state$: IServiceApplicationState) =>
         })
     )
 
-
 export const apiCreateUserEpic = (action$, state$: IServiceApplicationState) => {
     return action$.pipe(
         ofType(userManagementActions.apiNewUser.type),
         switchMap((action: any) => {
-
+            debugger
             return ajax
                 .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.NEW_USER_PROFILE}`,
                     action.payload,
@@ -135,13 +161,76 @@ export const apiCreateUserEpic = (action$, state$: IServiceApplicationState) => 
                 )
                 .pipe(
                     mergeMap((response: any) => {
-
+                        debugger
                         notification.success({
                             description: '',
                             message: "User created",
                             className: 'notification_item',
                         })
                         return of(userManagementActions.setUsers(response.response.Body))
+                    }),
+                    catchError((error: any) => {
+                        return ErrorHandler(error)
+                    })
+                )
+        }
+        )
+    )
+}
+
+export const apiUpdateUserEpic = (action$, state$: IServiceApplicationState) => {
+    return action$.pipe(
+        ofType(userManagementActions.apiUpdateUser.type),
+        switchMap((action: any) => {
+
+            return ajax
+                .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.UPDATE_USER_PROFILE}`,
+                    action.payload,
+                    {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${state$.value.authentication.token}`
+                    }
+                )
+                .pipe(
+                    mergeMap((response: any) => {
+                        notification.success({
+                            description: '',
+                            message: response.response.Body,
+                            className: 'notification_item',
+                        })
+                        return of(push('/app/users'))
+                    }),
+                    catchError((error: any) => {
+                        return ErrorHandler(error)
+                    })
+                )
+        }
+        )
+    )
+}
+
+export const apiChangeUserPasswordEpic = (action$, state$: IServiceApplicationState) => {
+    return action$.pipe(
+        ofType(userManagementActions.apiChangeUserPassword.type),
+        switchMap((action: any) => {
+
+            return ajax
+                .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.CHANGE_PASSWORD}`,
+                    action.payload,
+                    {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${state$.value.authentication.token}`
+                    }
+
+                )
+                .pipe(
+                    map((response: any) => {
+                        notification.success({
+                            description: '',
+                            message: response.response.Body,
+                            className: 'notification_item',
+                        })
+                        return { type: '' }
                     }),
                     catchError((error: any) => {
                         return ErrorHandler(error)

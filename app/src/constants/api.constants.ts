@@ -9,6 +9,13 @@ export class API {
         GET_ALL_USERS: API.API_PART + 'identity/users/all?',
         NEW_USER_PROFILE: API.API_PART + 'identity/profile/new',
         GET_ALL_ROLES: API.API_PART + 'identity/roles/all',
+        GET_USER_PROFILE_BY_USER_NET_ID: API.API_PART + 'identity/profile/get/user?userNetId=',
+        UPDATE_USER_PROFILE: API.API_PART + 'identity/profile/update',
+        CHANGE_PASSWORD: API.API_PART + 'identity/change/password',
+
+
+
+
 
         //NEW_USER_PROFILE: API.API_PART + 'identity/profile/new',
         //GET_USER_PROFILE: API.API_PART + 'identity/profile/get',

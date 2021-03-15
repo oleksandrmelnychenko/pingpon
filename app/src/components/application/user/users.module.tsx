@@ -11,15 +11,17 @@ export const UsersModule: React.FC = (props: any) => {
     const dispatch = useDispatch();
 
     return (
-        <Switch>
-            <Redirect
-                exact={true}
-                from={routes.USER_MODULE_URI}
-                to={routes.USERS_URI} />
+        <div className="content__CONTAINER">
+            <Switch>
+                <Redirect
+                    exact={true}
+                    from={routes.USER_MODULE_URI}
+                    to={routes.USERS_URI} />
 
-            <Route exact={true} path={`${routes.USER_EDIT_URI}:id`} component={UserProfileView} />
-            <Route exact={true} path={`${routes.USER_NEW_URI}`} component={UserProfileView} />
-            <Route path={routes.USERS_URI} component={UsersView} />
-        </Switch>
+                <Route exact={true} path={`${routes.USER_EDIT_URI}:id`} component={UserProfileView} />
+                <Route exact={true} path={`${routes.USER_NEW_URI}`} component={UserProfileView} />
+                <Route path={routes.USERS_URI} component={UsersView} />
+            </Switch>
+        </div>
     )
 }
