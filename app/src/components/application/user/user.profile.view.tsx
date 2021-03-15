@@ -71,7 +71,7 @@ export const UserProfileView: React.FC = () => {
     });
 
     const initialValues = () => {
-        debugger
+          
         if (selectedUser.Id > 0 && userProfileId) {
             return {
                 name: selectedUser.UserName,
@@ -127,7 +127,7 @@ export const UserProfileView: React.FC = () => {
                                                 RoleDescription: roleDescription.Description,
                                                 City: values.city
                                             }
-                                            debugger
+                                              
                                             dispatch(userManagementActions.apiUpdateUser(data))
                                         } else if ((GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator)) {
                                             const data: any = {
@@ -140,7 +140,7 @@ export const UserProfileView: React.FC = () => {
                                                 City: values.city,
                                                 Password: values.password
                                             }
-                                            debugger
+                                              
                                             dispatch(userManagementActions.apiNewUser(data))
                                         }
                                     }}>

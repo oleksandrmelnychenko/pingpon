@@ -84,10 +84,10 @@ export const UsersView: React.FC = () => {
         if ((GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator ||
             (GetIdentityRole(authenticationUser.role) === user.selectedUser.IdentityRole ||
                 user.selectedUser.RoleDescription === 'User'))) {
-            debugger
+              
             return false
         } else {
-            debugger
+              
             return true
         }
     }
@@ -98,7 +98,7 @@ export const UsersView: React.FC = () => {
     }
 
     const userRemove = (user) => {
-        debugger
+          
         dispatch(userManagementActions.apiUpdateUser({
             ...user.selectedUser,
             Deleted: true

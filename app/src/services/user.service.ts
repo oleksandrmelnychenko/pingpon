@@ -150,7 +150,7 @@ export const apiCreateUserEpic = (action$, state$: IServiceApplicationState) => 
     return action$.pipe(
         ofType(userManagementActions.apiNewUser.type),
         switchMap((action: any) => {
-            debugger
+              
             return ajax
                 .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.NEW_USER_PROFILE}`,
                     action.payload,
@@ -161,7 +161,7 @@ export const apiCreateUserEpic = (action$, state$: IServiceApplicationState) => 
                 )
                 .pipe(
                     mergeMap((response: any) => {
-                        debugger
+                          
                         notification.success({
                             description: '',
                             message: "User created",
