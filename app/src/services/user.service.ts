@@ -167,7 +167,7 @@ export const apiCreateUserEpic = (action$, state$: IServiceApplicationState) => 
                             message: "User created",
                             className: 'notification_item',
                         })
-                        return of(userManagementActions.setUsers(response.response.Body))
+                        return of(push('/app/users'))
                     }),
                     catchError((error: any) => {
                         return ErrorHandler(error)

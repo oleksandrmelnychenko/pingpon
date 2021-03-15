@@ -87,8 +87,10 @@ export const UsersView: React.FC = () => {
 
     const userRemove = (user) => {
         debugger
-        dispatch(userManagementActions.setUserProfile(user.selectedUser))
-        history.push(routes.USER_EDIT_URI + user.NetUid)
+        dispatch(userManagementActions.apiUpdateUser({
+            ...user.selectedUser,
+            Deleted: true
+        }))
     }
 
     const onCreateProject = () => {

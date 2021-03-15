@@ -67,6 +67,26 @@ export const UserProfileView: React.FC = () => {
             .required('Required'),
     });
 
+    const initialValues = () => {
+        debugger
+        if (selectedUser.Id > 0 && userProfileId) {
+            return {
+                name: selectedUser.UserName,
+                role: selectedUser.IdentityRole,
+                email: selectedUser.Email,
+                city: selectedUser.City ? selectedUser.City : '',
+            }
+        } else {
+            return {
+                name: '',
+                role: selectedUser.IdentityRole,
+                email: '',
+                city: '',
+                password: ''
+            }
+        }
+    }
+
     return (
         <div className="component__UserNew__VIEW">
             <div className="view__CONTROLS">
@@ -85,13 +105,7 @@ export const UserProfileView: React.FC = () => {
                             <div className="user_profile__COMPONENT">
                                 <Formik
                                     validationSchema={validationSchema}
-                                    initialValues={{
-                                        name: selectedUser.UserName,
-                                        role: selectedUser.IdentityRole,
-                                        email: selectedUser.Email,
-                                        city: selectedUser.City ? selectedUser.City : '',
-                                        password: ''
-                                    }}
+                                    initialValues={initialValues()}
                                     enableReinitialize
                                     onSubmit={(values) => {
                                         let roleDescription = getIdentityRoleModel(values.role.toString());
@@ -101,6 +115,7 @@ export const UserProfileView: React.FC = () => {
                                                 ...selectedUser,
                                                 Email: values.email,
                                                 UserName: values.name,
+                                                DisplayName: values.name,
                                                 IdentityRole: roleDescription.Value,
                                                 RoleDescription: roleDescription.Description,
                                                 City: values.city
@@ -112,6 +127,7 @@ export const UserProfileView: React.FC = () => {
                                                 ...selectedUser,
                                                 Email: values.email,
                                                 UserName: values.name,
+                                                DisplayName: values.name,
                                                 IdentityRole: roleDescription.Value,
                                                 RoleDescription: roleDescription.Description,
                                                 City: values.city,
@@ -216,7 +232,7 @@ export const UserProfileView: React.FC = () => {
                         <TabPane tab="Change password" key="2" className="showTab__ITEM">
                             <div className="user_profile__COMPONENT">
                                 <Formik
-                                    enableReinitialize
+                                    enableReinitialize={true}
                                     validationSchema={validationSchemaChangePassword}
                                     initialValues={{
                                         userPassword: '',
@@ -229,6 +245,7 @@ export const UserProfileView: React.FC = () => {
                                         }
 
                                         dispatch(userManagementActions.apiChangeUserPassword(data))
+
                                     }}>
                                     {(formik) => (
                                         <Form>
