@@ -27,7 +27,7 @@ export const RequestToken = (action$, store: Store<any>) => {
                 )
                 .pipe(
                     map((response: any) => {
-                        debugger
+                          
                         const parsedToken = TokenHelper.parseJwt(response.response.Body.AccessToken)
 
                         setCookie(
@@ -96,7 +96,7 @@ export const GetRoless = (action$, state$: IServiceApplicationState) =>
     action$.pipe(
         ofType(userManagementActions.apiGetRoles.type),
         switchMap((action: any) => {
-            debugger
+              
             return ajax
                 .getJSON(
                     `${API.SERVER_URL}${API.UserIdentityEndPoints.GET_ALL_ROLES}`,
@@ -107,7 +107,7 @@ export const GetRoless = (action$, state$: IServiceApplicationState) =>
                 )
                 .pipe(
                     mergeMap((response: any) => {
-                        debugger
+                          
                         return of(
                             userManagementActions.setRoles(response.Body),
                         )

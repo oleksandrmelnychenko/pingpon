@@ -103,7 +103,7 @@ export const UserProfileView: React.FC = () => {
                                         formik.setFieldValue('role', currentTargetValue);
                                         formik.setFieldTouched('role');
 
-                                        debugger
+                                          
                                         dispatch(userManagementActions.setRole(getIdentityRoleModel(currentTargetValue)))
                                     }}>
                                     {

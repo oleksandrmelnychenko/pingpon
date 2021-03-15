@@ -40,7 +40,7 @@ const authenticationSlice = createSlice({
             } as AuthenticationState)
         },
         requestTokenSuccess(state, action: { type: string; payload: any }) {
-            debugger
+              
             return Object.assign(state, {
                 fetching: false,
                 name: action.payload.name,

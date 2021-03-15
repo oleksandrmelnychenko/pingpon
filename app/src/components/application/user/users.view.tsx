@@ -35,7 +35,7 @@ export const UsersView: React.FC = () => {
             title: 'Role',
             dataIndex: 'RoleDescription',
             key: 'RoleDescription',
-            render: role => <span onClick={() => { debugger }}>{role}</span>,
+            render: role => <span>{role}</span>,
         },
         {
             title: ' ',
@@ -64,7 +64,7 @@ export const UsersView: React.FC = () => {
     }
 
     const userSelection = (user) => {
-        debugger
+          
         dispatch(userManagementActions.setUserProfile(user.selectedUser))
         history.push(routes.USER_EDIT_URI + user.NetUid)
     }
