@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router';
+import { Redirect, Switch } from 'react-router';
 import * as routes from "../../../constants/routes.constants";
 import { IdentityRoles } from '../../../entities/IdentityRoles';
 import { GetIdentityRole } from '../../../helpers/role.helper';
@@ -11,10 +11,16 @@ const MasterPageView: React.FC = () => {
     const dispatch = useDispatch()
 
     const authenticationUser = useSelector<IApplicationState, any>((state) => state.authentication)
+      
+    //const [connection, setConnection] = useState(null);
+    //const [chat, setChat] = useState([]);
+    //const latestChat = useRef(null);
 
     const renderRoutes = (role: string) => {
+          
+
         switch (GetIdentityRole(role)) {
-            case IdentityRoles.Admin:
+            case IdentityRoles.Administrator:
                 return AdminRoute(null)
             case IdentityRoles.Operator:
                 return OperatorRoute(null)
@@ -25,32 +31,47 @@ const MasterPageView: React.FC = () => {
         }
     }
 
+    //useEffect(() => {
+    //    const newConnection = new HubConnectionBuilder()
+    //        .withUrl('http://78.152.175.67:15023/client/hub')
+    //        .withAutomaticReconnect()
+    //        .build();
+
+    //    setConnection(newConnection);
+    //}, []);
+
+
+    //useEffect(() => {
+    //    if (connection) {
+
+    //        connection.start()
+    //            .then(result => {
+    //                console.log('Connected!');
+
+    //                connection.on('ReceiveMessage', message => {
+    //                    const updatedChat = [...latestChat.current];
+    //                    updatedChat.push(message);
+
+    //                    setChat(updatedChat);
+    //                });
+    //            })
+    //            .catch(e => console.log('Connection failed: ', e));
+    //    } else {
+
+    //    }
+    //}, [connection]);
+
     return (
         <div className="content__CONTAINER">
-            hi
             <Switch>
+                <Redirect
+                    exact={true}
+                    from={routes.APP_URI}
+                    to={authenticationUser.role === 'Administrator' ? routes.USERS_URI : 'app/uuuuuu'} />
+
                 {renderRoutes(authenticationUser.role)}
-
-                    { /*
-                     <Redirect
-                        exact={true}
-                        from={routes.APP_URI}
-                        to={`${routes.SERVER_CONFIG}`} />
-
-
-                    <Route path={`${routes.SERVER_CONFIG}`} component={ServerConfigModule} />
-                    <Route path={`${routes.USERS_MODULE}`} component={UsersModule} />
-                    <Route path={`${routes.ITEMS_MODULE}`} component={ItemsConfigModule} />
-                    <Route path={`${routes.LOCATIONS_MODULE}`} component={LocationsConfigModule} />
-                    <Route path={`${routes.QUESTS_MODULE}`} component={QuestsConfigModule} />
-                    <Route path={`${routes.MOBS_MODULE}`} component={MobsConfigModule} />
-                    <Route path={`${routes.NPC_MODULE}`} component={NPCConfigModule} />
-
-                    <Route path={`${routes.SETTINGS}`} component={SettingsView} />
-                     */}
-                    
-                </Switch>
-            </div>
+            </Switch>
+        </div>
     )
 }
 export default MasterPageView;

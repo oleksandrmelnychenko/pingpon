@@ -16,11 +16,13 @@ export function AppInit(store: Store<any>) {
             store.dispatch(push(routes.APP_URI));
         }
 
+          
+
         store.dispatch(
             authenticationActions.requestTokenSuccess({
                 name: parsedToken.UserName,
                 email: parsedToken.Email,
-                netUid: parsedToken.ID,
+                netUid: parsedToken.NetUid,
                 role: parsedToken.role,
                 token: token,
                 refreshToken: refresh,

@@ -1,14 +1,14 @@
 export class API {
-    public static readonly SERVER_URL = 'http://78.152.175.67:15023'
+    public static readonly SERVER_URL = 'http://78.152.175.67:15017/'
 
-    public static readonly API_PART = '/'
+    public static readonly API_PART = 'api/v1/'
 
     public static readonly UserIdentityEndPoints = {
-        SIGN_IN: API.API_PART + 'authentification/token/get?email=',
+        SIGN_IN: API.API_PART + 'identity/signin',
         REFRESH_TOKEN: API.API_PART + 'authentification/token/refresh',
-        GET_ALL_USERS: API.API_PART + 'users/all/get',
-        NEW_DASHBOARD_USER: API.API_PART + 'users/new',
-        GET_ALL_ROLES: API.API_PART + 'roles/all/get',
+        GET_ALL_USERS: API.API_PART + 'identity/users/all?',
+        NEW_USER_PROFILE: API.API_PART + 'identity/profile/new',
+        GET_ALL_ROLES: API.API_PART + 'identity/roles/all',
 
         //NEW_USER_PROFILE: API.API_PART + 'identity/profile/new',
         //GET_USER_PROFILE: API.API_PART + 'identity/profile/get',
@@ -19,6 +19,7 @@ export class API {
         //CHANGE_PASSWORD: API.API_PART + 'identity/change/password',
         //REFRESH_TOKEN: API.API_PART + 'identity/refresh/token'
     }
+
 
     //public static readonly CompanyEndpoints: any = {
     //    GET_ALL_COMPANIES: API.API_PART + 'company/get/all',

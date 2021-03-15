@@ -66,8 +66,8 @@ export const SignIn: React.FC = () => {
 
                 <Formik
                     initialValues={{
-                        email: 'admin@gmail.com',
-                        password: 'AdminPassword'
+                        email: 'pestik@live.com',
+                        password: 'Hmelhunt!2'
                     }}
                     innerRef={(formik: any) => {
                         formikReference.formik = formik

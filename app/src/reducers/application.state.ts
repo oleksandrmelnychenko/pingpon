@@ -1,6 +1,6 @@
 import { AuthenticationState } from "./authentication.slice";
 import { ControlState } from "./control.slice";
-import { UsersState } from "./users.slice";
+import { UserManagementState } from "./user.management.slice";
 
 export interface IServiceApplicationState {
     value: IApplicationState
@@ -9,5 +9,5 @@ export interface IServiceApplicationState {
 export interface IApplicationState {
     authentication: AuthenticationState,
     control: ControlState,
-    users: UsersState
+    userManagement: UserManagementState,
 }

@@ -13,44 +13,47 @@ import { IServiceApplicationState } from '../reducers/application.state';
 import { ErrorHandler } from '../helpers/error.handling';
 import { controlActions } from '../reducers/control.slice';
 import { notification } from 'antd';
-import { usersActions } from '../reducers/users.slice';
+import { userManagementActions } from '../reducers/user.management.slice';
 
 export const RequestToken = (action$, store: Store<any>) => {
     return action$.pipe(
         ofType(authenticationActions.api_requestToken.type),
         switchMap((action: any) => {
-             
+
             return ajax
-                .getJSON(`${API.SERVER_URL}${API.UserIdentityEndPoints.SIGN_IN}${action.payload.Email}&password=${action.payload.Password}`,
+                .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.SIGN_IN}`,
+                    action.payload,
                     { 'Content-Type': 'application/json' }
                 )
                 .pipe(
                     map((response: any) => {
-                        const parsedToken = TokenHelper.parseJwt(response.Body.AccessToken)
+                        debugger
+                        const parsedToken = TokenHelper.parseJwt(response.response.Body.AccessToken)
+
                         setCookie(
                             'token',
-                            response.Body.AccessToken,
+                            response.response.Body.AccessToken,
                             parsedToken.exp * 1000
                         )
                         setCookie(
                             'refresh',
-                            response.Body.RefreshToken,
+                            response.response.Body.RefreshToken,
                             Math.round(+new Date() / 1000) + 43200 * 60
                         )
-                         
-                        //storeProvider.getStore().dispatch(push('/'))
-                        window.location.href = '/';
+
+                        //storeProvider.getStore().dispatch(push('/app'))
+
+                        window.location.href = '/app';
 
                         return authenticationActions.requestTokenSuccess({
                             name: parsedToken.UserName,
                             email: parsedToken.Email,
                             netUid: parsedToken.NetUid,
                             role: parsedToken.role,
-                            token: response.Body.AccessToken,
-                            refreshToken: response.Body.RefreshToken,
+                            token: response.response.body.AccessToken,
+                            refreshToken: response.response.body.RefreshToken,
                             expires: parsedToken.exp * 1000
                         })
-
 
                     }),
                     catchError((error: any) => {
@@ -64,12 +67,12 @@ export const RequestToken = (action$, store: Store<any>) => {
 
 export const GetUsers = (action$, state$: IServiceApplicationState) =>
     action$.pipe(
-        ofType(usersActions.apiGetUsers.type),
+        ofType(userManagementActions.apiGetUsers.type),
         switchMap((action: any) => {
-             
+
             return ajax
                 .getJSON(
-                    `${API.SERVER_URL}${API.UserIdentityEndPoints.GET_ALL_USERS}`,
+                    `${API.SERVER_URL}${API.UserIdentityEndPoints.GET_ALL_USERS}${action.payload.searchDescriptor}&limit=${action.payload.limit}&offset=${action.payload.offset}`,
                     {
                         Authorization: `Bearer ${state$.value.authentication.token}`,
                         'Content-Type': 'application/json',
@@ -77,10 +80,9 @@ export const GetUsers = (action$, state$: IServiceApplicationState) =>
                 )
                 .pipe(
                     mergeMap((response: any) => {
-                         
-
-                        return of(usersActions.setUsersDashboard(response.Body))
-                        
+                        return of(
+                            userManagementActions.setUsers(response.Body),
+                        )
                     }),
                     catchError((error: any) => {
                         return ErrorHandler(error)
@@ -89,10 +91,12 @@ export const GetUsers = (action$, state$: IServiceApplicationState) =>
         })
     )
 
-export const GetRoles = (action$, state$: IServiceApplicationState) =>
+
+export const GetRoless = (action$, state$: IServiceApplicationState) =>
     action$.pipe(
-        ofType(usersActions.apiGetUserRoles.type),
+        ofType(userManagementActions.apiGetRoles.type),
         switchMap((action: any) => {
+            debugger
             return ajax
                 .getJSON(
                     `${API.SERVER_URL}${API.UserIdentityEndPoints.GET_ALL_ROLES}`,
@@ -103,9 +107,9 @@ export const GetRoles = (action$, state$: IServiceApplicationState) =>
                 )
                 .pipe(
                     mergeMap((response: any) => {
-                         
+                        debugger
                         return of(
-                            usersActions.setUserRoles(response.Body),
+                            userManagementActions.setRoles(response.Body),
                         )
                     }),
                     catchError((error: any) => {
@@ -115,13 +119,14 @@ export const GetRoles = (action$, state$: IServiceApplicationState) =>
         })
     )
 
+
 export const apiCreateUserEpic = (action$, state$: IServiceApplicationState) => {
     return action$.pipe(
-        ofType(usersActions.apiNewUser.type),
+        ofType(userManagementActions.apiNewUser.type),
         switchMap((action: any) => {
-              
+
             return ajax
-                .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.NEW_DASHBOARD_USER}`,
+                .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.NEW_USER_PROFILE}`,
                     action.payload,
                     {
                         'Content-Type': 'application/json',
@@ -130,13 +135,13 @@ export const apiCreateUserEpic = (action$, state$: IServiceApplicationState) => 
                 )
                 .pipe(
                     mergeMap((response: any) => {
-                          
+
                         notification.success({
                             description: '',
                             message: "User created",
                             className: 'notification_item',
                         })
-                        return of(usersActions.setUsersDashboard(response.response.Body))
+                        return of(userManagementActions.setUsers(response.response.Body))
                     }),
                     catchError((error: any) => {
                         return ErrorHandler(error)
