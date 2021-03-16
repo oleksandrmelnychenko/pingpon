@@ -11,6 +11,14 @@ import { gameManagementActions, GameManagementState } from "../../../reducers/ga
 import { GameModel } from "./game.model";
 import { PlayerModel } from "./player.model";
 
+import {
+    UserSwitchOutlined,
+    LinkOutlined,
+    ApiOutlined
+} from '@ant-design/icons';
+
+
+
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 
 export const GameView: React.FC = () => {
@@ -62,9 +70,11 @@ export const GameView: React.FC = () => {
     }
 
     const renderPlayerTemplate = (player: PlayerModel, key: number) => {
-        return (<div key={key}>
-            {player.name}
-        </div>)
+        return (
+            <b key={key}>
+                {player.name}
+            </b>
+        )
     }
 
     const onStartGame = async () => {
@@ -83,37 +93,82 @@ export const GameView: React.FC = () => {
     }
 
     const renderGameTemplate = (gameModel: GameModel, key: number) => {
-        return (<div key={key}>
-            <div>
-                <span>
-                    GAME: {gameModel.name}
+        return (
+            <>
+                <div key={key} className={`card__mod_ITEM`}>
+                    <h2 className="item__NAME">{gameModel.name}</h2>
+                    <ul>
+                        <li>
+                            <div className="icon"><ApiOutlined /></div>
+                            <div className="value">{gameModel.hostUserNetId}</div>
+                        </li>
+
+                        <li>
+                            <div className="icon"><LinkOutlined /></div>
+                            <div className="value">{gameModel.id}</div>
+                        </li>
+
+                        <li>
+                            <div className="icon"><UserSwitchOutlined /></div>
+                            <div className="value">
+                                {gameModel.players.map((p, k) => renderPlayerTemplate(p, k))}
+
+                                {/*<b>Start Date</b> {Moment(projectItem.PlannedStartDate).format('MM-DD-YYYY')}*/}
+                                {/*{' - '}*/}
+                                {/*<b>Finish Date</b> {Moment(projectItem.PlannedEndDate).format('MM-DD-YYYY')}*/}
+                            </div>
+                        </li>
+                        <li className="controls">
+                            <div className="icon"></div>
+                            <div className="value">
+                                <div className="p_right">
+                                    {
+                                        gameModel.players.length === 1 ?
+                                            <Button type="link" size={"small"} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> :
+                                            <Button type="link" size={"small"} onClick={onStartGame}>Start game</Button>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                { /*
+                <div key={key}>
+                    <div>
+                         <span>
+                            GAME: {gameModel.name}
                         Id: {gameModel.id}
                         HOSTED BY : {gameModel.hostUserNetId}
-                </span>
-                <div>
-                    Players:
+                        </span>
+                         
+                        <div>
+                            Players:
                     {
-                        gameModel.players.length === 1 ?
-                            <div> WAITING FOR OTHER PLAYER
-                                    <Button type="primary" onClick={onJoinGame(gameModel.id)}>Join game</Button>
+                                gameModel.players.length === 1 ?
+                                    <div> WAITING FOR OTHER PLAYER
+                                    <Button type="primary" onClick={() => onJoinGame(gameModel.id)}>Join game</Button>
 
-                            </div> :
-                            <div onClick={onStartGame}>
-                                START GAME
+                                    </div> :
+                                    <div onClick={onStartGame}>
+                                        START GAME
                         </div>
-                    }
+                            }
 
-                    <div>
-                        {
-                            gameManagement.answers.map((answer, key) => <div key={key}>{answer}</div>)
-                        }
+                            <div>
+                                {
+                                    gameManagement.answers.map((answer, key) => <div key={key}>{answer}</div>)
+                                }
+                            </div>
+
+
+                           
+                        </div>
                     </div>
-
-
-                    {gameModel.players.map((p, k) => renderPlayerTemplate(p, k))}
                 </div>
-            </div>
-        </div>)
+                    */}
+            </>
+        )
     }
 
     return (
@@ -125,17 +180,19 @@ export const GameView: React.FC = () => {
                         <div className="controls__LEFT">
                             <h2 className="page__TITLE">Game</h2>
                         </div>
+
+                        <div className="controls__RIGHT">
+                            <Button type="primary" onClick={onCreateGame}>Start Game</Button>
+                        </div>
                     </div>
                 </div>
 
-                <div className="view__CONTENT fixed_pagination__CONTENT">
-                    <Button type="primary" onClick={onCreateGame}> Start Game</Button>
-                </div>
-
-                <div>
-                    {
-                        gameManagement.games.map((v, i) => renderGameTemplate(v, i))
-                    }
+                <div className="view__CONTENT fixed_pagination__CONTENT isScrollable">
+                    <div className="gameList__WRAPPER">
+                        {
+                            gameManagement.games.map((v, i) => renderGameTemplate(v, i))
+                        }
+                    </div>
                 </div>
             </div>
         </div>
