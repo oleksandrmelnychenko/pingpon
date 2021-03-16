@@ -33,45 +33,42 @@ export const GameView: React.FC = () => {
     const isOpenModalGame = useSelector<IApplicationState, boolean>(state => state.gameManagement.isOpenModalGame);
 
     const userNetId = useSelector<IApplicationState, string>(state => state.authentication.netUid);
-    useEffect(() => {
-
-        const createHubConnection = async () => {
-            const hubConnect = new HubConnectionBuilder().withUrl(API.SERVER_URL + API.GAME_HUB, { accessTokenFactory: () => access_token }).build();
-
-            try {
-                await hubConnect.start();
-                hubConnect.on('GameUpdated', (response: any) => {
-                    dispatch(gameManagementActions.setGames(response));
-                });
-
-                hubConnect.on('ScoreUpdated', (response: any) => {
-
-                });
-
-                hubConnect.on('UpdateClientAnswers', (response: any) => {
-                    dispatch(gameManagementActions.setAnswers(response));
-                });
-            }
-            catch (err) {
-                alert(err);
-                console.log('Error while establishing connection: ' + { err })
-            }
-            setHubConnection(hubConnect);
-        }
-
-        createHubConnection();
-    }, []);
-
     const authenticationUser = useSelector<IApplicationState, any>((state) => state.authentication)
 
-    const onCreateGame = async () => {
-        debugger
-        await hubConnection.invoke('CreateGame', 'Olek')
+    if (!hubConnection) {
+        const hubConnect = new HubConnectionBuilder().withUrl(API.SERVER_URL + API.GAME_HUB, { accessTokenFactory: () => access_token }).build();
+
+        try {
+           
+            hubConnect.on('GameUpdated', (response: any) => {
+                 dispatch(gameManagementActions.setGames(response));
+            });
+
+            hubConnect.on('ScoreUpdated', (response: any) => {
+
+            });
+
+            hubConnect.on('UpdateClientAnswers', (response: any) => {
+                dispatch(gameManagementActions.setAnswers(response));
+            });
+
+            hubConnect.start().then(() => {
+                hubConnect.invoke('GetCreatedGames');
+            }).catch(err => console.error(err.toString()));
+        }
+        catch (err) {
+            alert(err);
+            console.log('Error while establishing connection: ' + { err })
+        }
+        setHubConnection(hubConnect);
     }
 
-    const onJoinGame = async (id) => {
-        debugger
-        await hubConnection.invoke('JoinGame', id)
+    const onCreateGame = () => {
+        hubConnection.invoke('CreateGame', 'Olek').catch(err => console.error(err.toString()));
+    }
+
+    const onJoinGame = (id) => {
+        hubConnection.invoke('JoinGame', id).catch(err => console.error(err.toString()));
     }
 
     const renderPlayerTemplate = (player: PlayerModel, key: number) => {
@@ -128,7 +125,7 @@ export const GameView: React.FC = () => {
                                         gameModel.players.length === 1 ?
                                             gameModel.hostUserNetId !== userNetId ?
                                                 <Button type="link" size={"small"} disabled={false} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> : "Waiting player for connection..." :
-                                            <Button type="link" size={"small"} disabled={false} onClick={onStartGame}>Start game</Button>
+                                                gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={onStartGame}>Start game</Button>:null
                                     }
                                 </div>
                             </div>
