@@ -125,7 +125,7 @@ export const GameView: React.FC = () => {
                                         gameModel.players.length === 1 ?
                                             gameModel.hostUserNetId !== userNetId ?
                                                 <Button type="link" size={"small"} disabled={false} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> : "Waiting player for connection..." :
-                                                gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={onStartGame}>Start game</Button>:null
+                                                gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={onStartGame}>Start game</Button>:"Waiting host to start..."
                                     }
                                 </div>
                             </div>
