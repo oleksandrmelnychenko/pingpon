@@ -157,13 +157,12 @@
         line-height: 150px;
         position: relative;
 
-        .timer__ICON {
-            @include position_absolute(0,0,auto,auto);
-
-            svg {
-                width: 26px;
-                opacity: 0.3;
-            }
+        .timer__TITLE {
+            @include position_absolute(0,0,auto,0);
+            font-size: 12px;
+                line-height: 12px;
+                white-space: nowrap;
+                text-align: center;
         }
 
         .time__WRAPPER {
@@ -173,13 +172,6 @@
             color: #333;
             position: relative;
 
-            span {
-                @include position_absolute(100%,auto,auto,50%);
-                @include transform_translate(0,-50%);
-                font-size: 12px;
-                line-height: 12px;
-                white-space: nowrap;
-            }
         }
     }
 }
@@ -187,9 +179,14 @@
 .value .player__ITEM {
     display: inline;
 
+.score{
+    font-weight: bold;
+    font-size: 12px;
+}
+
     &:nth-of-type(2),
     &:last-child {
-        span {
+        .line {
             display: none;
         }
     }

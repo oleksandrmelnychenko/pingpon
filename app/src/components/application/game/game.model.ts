@@ -1,3 +1,4 @@
+import { GameStatus } from "./game.status";
 import { PlayerModel } from "./player.model";
 
 export class GameModel {
@@ -6,6 +7,8 @@ export class GameModel {
     public name: string;
 
     public hostUserNetId: string;
+
+    public gameStatus: GameStatus;
 
     public players: PlayerModel[];
 }
