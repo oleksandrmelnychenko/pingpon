@@ -73,6 +73,9 @@
                     font-size: 10px;
                     text-transform: uppercase;
                     color: #b5b5b5;
+                    //min-width: 80px;
+                    display: inline-block;
+                    padding-right: 4px;
                 }
 
                 .p_right {
@@ -102,27 +105,5 @@
 
     &:last-child {
         border-bottom: none;
-    }
-
-    &.card__taskItem {
-        padding-right: 10px;
-
-        ul {
-            li {
-                &.controls {
-                    .value {
-                        //
-                    }
-
-                    .p_right {
-                        @include position_absolute(8px,0,auto,auto);
-                    }
-
-                    &.pendingTask__controls {
-                        padding-left: 10px;
-                    }
-                }
-            }
-        }
     }
 }

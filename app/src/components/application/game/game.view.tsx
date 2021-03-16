@@ -74,9 +74,9 @@ export const GameView: React.FC = () => {
 
     const renderPlayerTemplate = (player: PlayerModel, key: number) => {
         return (
-            <b key={key}>
+            <React.Fragment key={key}>
                 {player.name}
-            </b>
+            </React.Fragment>
         )
     }
 
@@ -103,17 +103,18 @@ export const GameView: React.FC = () => {
                     <ul>
                         <li>
                             <div className="icon"><ApiOutlined /></div>
-                            <div className="value">HostUserId: {gameModel.hostUserNetId}</div>
+                            <div className="value"><b>HostUserId:</b> {gameModel.hostUserNetId}</div>
                         </li>
 
                         <li>
                             <div className="icon"><LinkOutlined /></div>
-                            <div className="value">GameId: {gameModel.id}</div>
+                            <div className="value"><b>GameId:</b> {gameModel.id}</div>
                         </li>
 
                         <li>
                             <div className="icon"><UserSwitchOutlined /></div>
                             <div className="value">
+                                <b>Players:</b>
                                 {gameModel.players.map((p, k) => renderPlayerTemplate(p, k))}
                             </div>
                         </li>
