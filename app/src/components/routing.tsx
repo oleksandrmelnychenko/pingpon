@@ -45,6 +45,8 @@ const Routing: React.FC<IRouting> = (props) => {
                     to={`${routes.ACCOUNT_SECURITY_URI}`} />
                  <Route path={routes.ACCOUNT_SECURITY_URI} component={AccountSecurity} />
                 
+
+                 
             </Switch>
         )
     }

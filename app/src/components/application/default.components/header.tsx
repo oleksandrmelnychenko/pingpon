@@ -1,5 +1,4 @@
 import React, { useEffect } from "react"
-import { IconHome, IconEdit } from "../../../assets/icons/icons"
 import { useDispatch, useSelector } from "react-redux";
 import { controlActions } from "../../../reducers/control.slice";
 import { IApplicationState } from "../../../reducers/application.state";
@@ -20,7 +19,6 @@ export const Header: React.FC = () => {
     const authenticationUser = useSelector<IApplicationState, any>(
         (state) => state.authentication
     )
-  
 
     return (
         <div className="header">

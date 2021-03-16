@@ -1,7 +1,10 @@
 export class API {
-    public static readonly SERVER_URL = 'http://78.152.175.67:15017/'
+   // public static readonly SERVER_URL = 'http://78.152.175.67:15017/'
+    public static readonly SERVER_URL = ' http://localhost:5000/'
 
     public static readonly API_PART = 'api/v1/'
+
+    public static readonly GAME_HUB = 'hub/games';
 
     public static readonly UserIdentityEndPoints = {
         SIGN_IN: API.API_PART + 'identity/signin',
@@ -12,29 +15,16 @@ export class API {
         GET_USER_PROFILE_BY_USER_NET_ID: API.API_PART + 'identity/profile/get/user?userNetId=',
         UPDATE_USER_PROFILE: API.API_PART + 'identity/profile/update',
         CHANGE_PASSWORD: API.API_PART + 'identity/change/password',
-
-
-
-
-
-        //NEW_USER_PROFILE: API.API_PART + 'identity/profile/new',
-        //GET_USER_PROFILE: API.API_PART + 'identity/profile/get',
-        //GET_USER_PROFILES_BY_COMPANY_ID: API.API_PART + 'identity/profile/get/company?companyId=',
-        //GET_USER_PROFILE_BY_USER_NET_ID: API.API_PART + 'identity/profile/get/user?userNetId=',
-        //GET_ALL_ROLES: API.API_PART + 'identity/roles/all',
-        //UPDATE_USER_PROFILE: API.API_PART + 'identity/profile/update',
-        //CHANGE_PASSWORD: API.API_PART + 'identity/change/password',
-        //REFRESH_TOKEN: API.API_PART + 'identity/refresh/token'
     }
 
 
-    //public static readonly CompanyEndpoints: any = {
-    //    GET_ALL_COMPANIES: API.API_PART + 'company/get/all',
-    //    GET_COMPANY_BY_ID: API.API_PART + 'company/get/company?companyNetId=',
-    //    GET_USER_IN_COMPANY: API.API_PART + 'company/get/in/user',
-    //    NEW_COMPANY: API.API_PART + 'company/new',
-    //    UPDATE_COMPANY: API.API_PART + 'company/update',
-    //}
+    public static readonly GameEndpoints: any = {
+       GET_ALL_COMPANIES: API.API_PART + 'company/get/all',
+       GET_COMPANY_BY_ID: API.API_PART + 'company/get/company?companyNetId=',
+       GET_USER_IN_COMPANY: API.API_PART + 'company/get/in/user',
+       NEW_COMPANY: API.API_PART + 'company/new',
+       UPDATE_COMPANY: API.API_PART + 'company/update',
+    }
 
     //public static readonly ProjectEndpoints: any = {
     //    GET_ALL_PROJECTS: API.API_PART + 'project/get/all',

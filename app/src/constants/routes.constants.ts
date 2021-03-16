@@ -10,3 +10,6 @@ export const USER_MODULE_URI = APP_URI + '/users';
 export const USERS_URI = APP_URI + '/users/all';
 export const USER_NEW_URI = APP_URI + '/users/new';
 export const USER_EDIT_URI = APP_URI + '/users/edit/';
+
+export const GAME_MODULE_URI = APP_URI + '/game';
+export const GAME_URI = APP_URI + '/game/current';

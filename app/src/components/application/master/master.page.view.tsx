@@ -13,14 +13,8 @@ const MasterPageView: React.FC = () => {
     const dispatch = useDispatch()
 
     const authenticationUser = useSelector<IApplicationState, any>((state) => state.authentication)
-      
-    //const [connection, setConnection] = useState(null);
-    //const [chat, setChat] = useState([]);
-    //const latestChat = useRef(null);
 
     const renderRoutes = (role: string) => {
-          
-
         switch (GetIdentityRole(role)) {
             case IdentityRoles.Administrator:
                 return AdminRoute(null)
@@ -32,36 +26,6 @@ const MasterPageView: React.FC = () => {
                 break;
         }
     }
-
-    //useEffect(() => {
-    //    const newConnection = new HubConnectionBuilder()
-    //        .withUrl('http://78.152.175.67:15023/client/hub')
-    //        .withAutomaticReconnect()
-    //        .build();
-
-    //    setConnection(newConnection);
-    //}, []);
-
-
-    //useEffect(() => {
-    //    if (connection) {
-
-    //        connection.start()
-    //            .then(result => {
-    //                console.log('Connected!');
-
-    //                connection.on('ReceiveMessage', message => {
-    //                    const updatedChat = [...latestChat.current];
-    //                    updatedChat.push(message);
-
-    //                    setChat(updatedChat);
-    //                });
-    //            })
-    //            .catch(e => console.log('Connection failed: ', e));
-    //    } else {
-
-    //    }
-    //}, [connection]);
 
     return (
         <div className="component__MasterPage_VIEW">

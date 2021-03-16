@@ -1,11 +1,7 @@
 import * as React from "react"
-import { NavLink, useHistory } from "react-router-dom";
-import * as routes from "../../../constants/routes.constants";
-import { controlActions } from "../../../reducers/control.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { setCookie } from "../../../helpers/cookies.helper";
 import { IApplicationState } from "../../../reducers/application.state";
-import { IconClose } from "../../../assets/icons/icons";
 import { UserMenuItems } from "../../../helpers/user.menu.items";
 import { Menu } from "antd";
 import { LogoutOutlined, AppstoreOutlined } from '@ant-design/icons';
@@ -32,7 +28,7 @@ const MenuComponent: React.FC = (props: any) => {
                 <div className="user__ROLE">{authenticationUser.role}</div>
             </div>
 
-            {UserMenuItems(props)}
+            { UserMenuItems(props) }
 
             <Menu
                 className="logOut__MenuItem"

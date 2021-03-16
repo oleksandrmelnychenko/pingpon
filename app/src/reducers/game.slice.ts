@@ -1,0 +1,29 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { GameModel } from "../components/application/game/game.model"
+
+
+export class GameManagementState {
+    games: Array<GameModel>;
+    answers: Array<number>;
+}
+
+export const DefaultGameManagementState: GameManagementState = {
+    games: [],
+    answers: []
+}
+
+const gameManagementSlice = createSlice({
+    name: 'gameManagementState',
+    initialState: DefaultGameManagementState,
+    reducers: {
+        setGames(state, action) {
+            state.games = action.payload
+        },
+        setAnswers(state, action) {
+            state.answers = action.payload
+        }
+    },
+})
+
+export const gameManagementActions = gameManagementSlice.actions
+export default gameManagementSlice.reducer

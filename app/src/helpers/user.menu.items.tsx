@@ -29,16 +29,17 @@ export const UserMenuItems: React.FC = () => {
 
     const adminMenu = [
         { route: routes.USER_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.USER_MODULE_URI)), name: "Users" },
+        { route: routes.GAME_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.GAME_MODULE_URI)), name: "Game" }
     ]
 
     const OperatorMenu = [
         { route: routes.USER_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.USER_MODULE_URI)), name: "Users" },
+        { route: routes.GAME_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.GAME_MODULE_URI)), name: "Game" }
     ]
 
     const UserMenu = [
-       /* { route: routes.DASHBOARD_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.DASHBOARD_MODULE_URI)), name: "Dashboard" },*/
+        { route: routes.GAME_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.GAME_MODULE_URI)), name: "Game" }
     ]
-
 
     const buildMenuByUserRole = (menuItems: Array<any>) => {
         return menuItems.map((menuItem, index) =>
