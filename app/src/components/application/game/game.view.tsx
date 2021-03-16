@@ -161,6 +161,7 @@ export const GameView: React.FC = () => {
                         </div>
 
                         <div className="controls__RIGHT">
+                            <Button type="primary" onClick={() => { }} style={{ marginRight: 10, backgroundColor: '#3ca935', borderColor: '#3ca935' }}>Import</Button>
                             <Button type="primary" onClick={onCreateGame}>Start Game</Button>
                         </div>
                     </div>
@@ -198,6 +199,7 @@ export const GameView: React.FC = () => {
                                 timeToUpdate={1000}
                                 direction="backward"
                                 onStop={() => timeStoped}
+
                             >
                                 <Timer.Seconds />
                             </Timer>

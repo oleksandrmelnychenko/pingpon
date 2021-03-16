@@ -38,7 +38,8 @@ export const UserMenuItems: React.FC = () => {
     ]
 
     const UserMenu = [
-        { route: routes.GAME_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.GAME_MODULE_URI)), name: "Game" }
+        { route: `${routes.USER_EDIT_URI}${authenticationUser.netUid}`, onClick: () => dispatch(controlActions.selectUrl(`${routes.USER_EDIT_URI}${authenticationUser.netUid}`)), name: "User" },
+        { route: routes.GAME_MODULE_URI, onClick: () => dispatch(controlActions.selectUrl(routes.GAME_MODULE_URI)), name: "Game" },
     ]
 
     const buildMenuByUserRole = (menuItems: Array<any>) => {
