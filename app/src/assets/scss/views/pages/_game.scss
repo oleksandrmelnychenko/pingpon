@@ -16,7 +16,6 @@
     }
 }
 
-
 .card__mod_ITEM {
     width: 100%;
     position: relative;
@@ -106,4 +105,20 @@
     &:last-child {
         border-bottom: none;
     }
+}
+
+.answer__ITEMS {
+    width: 640px;
+    height: 200px;
+    position: relative;
+    display: flex;
+}
+
+.answer__ITEM {
+    width: 200px;
+    height: 200px;
+    margin: 0 10px 10px 0;
+    background: #fbfbfb;
+    box-shadow: 1px 3px 1px #eaeaea;
+    float: left;
 }

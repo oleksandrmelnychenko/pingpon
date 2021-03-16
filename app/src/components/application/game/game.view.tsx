@@ -1,4 +1,4 @@
-import { Button, Pagination, Popconfirm, Space, Table } from "antd"
+import { Button, Modal, Pagination, Popconfirm, Space, Table } from "antd"
 import { List } from "linq-typescript";
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +29,8 @@ export const GameView: React.FC = () => {
 
     const gameManagement = useSelector<IApplicationState, GameManagementState>(state => state.gameManagement);
     const access_token = useSelector<IApplicationState, string>(state => state.authentication.token);
+
+    const isOpenModalGame = useSelector<IApplicationState, boolean>(state => state.gameManagement.isOpenModalGame);
 
     const userNetId = useSelector<IApplicationState, string>(state => state.authentication.netUid);
     useEffect(() => {
@@ -81,7 +83,7 @@ export const GameView: React.FC = () => {
     }
 
     const onStartGame = async () => {
-
+        dispatch(gameManagementActions.isOpenModalGame(true))
     }
 
     async function sendMessage(message: string): Promise<void> {
@@ -134,9 +136,7 @@ export const GameView: React.FC = () => {
                     </ul>
                 </div>
 
-                {
-                    gameManagement.answers.map((answer, key) => <div key={key}>{answer}</div>)
-                }
+
             </>
         )
     }
@@ -165,6 +165,29 @@ export const GameView: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            <Modal
+                title="Game"
+                centered
+                visible={!isOpenModalGame}
+                footer={false}
+                onCancel={() => dispatch(gameManagementActions.isOpenModalGame(false))}
+            >
+                <div className="answer__ITEMS">
+                    <div className="answer__ITEM">
+                        <span>10</span>
+                    </div>
+                    <div className="answer__ITEM">
+                        <span>15</span>
+                    </div>
+                    <div className="answer__ITEM">
+                        <span>20</span>
+                    </div>
+                </div>
+                {
+                    gameManagement.answers.map((answer, key) => <div className="answer__ITEM" key={key}>{answer}</div>)
+                }
+            </Modal>
         </div>
 
     )
