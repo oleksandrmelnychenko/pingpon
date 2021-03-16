@@ -166,11 +166,20 @@
             }
         }
 
-        span {
+        .time__WRAPPER {
             font-family: $font_app;
             font-style: normal;
             font-size: 41px;
             color: #333;
+            position: relative;
+
+            span {
+                @include position_absolute(100%,auto,auto,50%);
+                @include transform_translate(0,-50%);
+                font-size: 12px;
+                line-height: 12px;
+                white-space: nowrap;
+            }
         }
     }
 }

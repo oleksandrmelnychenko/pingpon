@@ -184,32 +184,29 @@ export const GameView: React.FC = () => {
                 onCancel={() => dispatch(gameManagementActions.setGameModal({}))}
             >
                 <div className="answer__ITEMS">
-                    <div className="answer__ITEM">
-                        <span>10</span>
-                    </div>
-                    <div className="answer__ITEM">
-                        <span>15</span>
-                    </div>
-                    <div className="answer__ITEM">
-                        <span>20</span>
-                    </div>
+                    {
+                        gameManagement.answers.map((answer, key) =>
+                            <div className="answer__ITEM" key={key}><span>{answer}</span></div>
+                        )
+                    }
 
                     <div className="answer__ITEM timer">
                         <FieldTimeOutlined className="timer__ICON" />
-                        <span>
+                        <div className="time__WRAPPER">
                             <Timer
                                 initialTime={10000}
+                                timeToUpdate={1000}
                                 direction="backward"
                                 onStop={() => timeStoped}
                             >
                                 <Timer.Seconds />
                             </Timer>
-                        </span>
+
+                            <span>Time to select Value</span>
+                        </div>
                     </div>
                 </div>
-                {
-                    gameManagement.answers.map((answer, key) => <div className="answer__ITEM" key={key}>{answer}</div>)
-                }
+
             </Modal>
         </div>
 
