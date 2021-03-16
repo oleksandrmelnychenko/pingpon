@@ -5,13 +5,13 @@ import { GameModel } from "../components/application/game/game.model"
 export class GameManagementState {
     games: Array<GameModel>;
     answers: Array<number>;
-    isOpenModalGame: boolean;
+    gameModal: GameModel;
 }
 
 export const DefaultGameManagementState: GameManagementState = {
     games: [],
     answers: [],
-    isOpenModalGame: false
+    gameModal: new GameModel()
 }
 
 const gameManagementSlice = createSlice({
@@ -24,8 +24,8 @@ const gameManagementSlice = createSlice({
         setAnswers(state, action) {
             state.answers = action.payload
         },
-        isOpenModalGame(state, action) {
-            state.isOpenModalGame = action.payload
+        setGameModal(state, action) {
+            state.gameModal = action.payload
         }
     },
 })

@@ -108,17 +108,17 @@
 }
 
 .game__MODAL {
-    width: auto!important;
+    width: auto !important;
 
     .answer__ITEMS {
-        width: 520px;
+        width: 680px;
         height: 160px;
         display: flex;
         padding-left: 10px;
         position: relative;
     }
 
-    .answer__ITEM {
+    .answer__ITEM:not(.timer) {
         width: 160px;
         height: 160px;
         margin: 0 10px 10px 0;
@@ -132,7 +132,7 @@
         span {
             font-family: $font_app;
             font-style: normal;
-            font-size: 31px;
+            font-size: 41px;
             color: #333;
         }
 
@@ -145,6 +145,43 @@
                 pointer-events: none;
                 border: 2px solid #1890ff;
             }
+        }
+    }
+
+    .answer__ITEM.timer {
+        width: 160px;
+        height: 160px;
+        margin: 0 10px 10px 0;
+        float: left;
+        text-align: center;
+        line-height: 150px;
+        position: relative;
+
+        .timer__ICON {
+            @include position_absolute(0,0,auto,auto);
+
+            svg {
+                width: 26px;
+                opacity: 0.3;
+            }
+        }
+
+        span {
+            font-family: $font_app;
+            font-style: normal;
+            font-size: 41px;
+            color: #333;
+        }
+    }
+}
+
+.value .player__ITEM {
+    display: inline;
+
+    &:nth-of-type(2),
+    &:last-child {
+        span {
+            display: none;
         }
     }
 }
