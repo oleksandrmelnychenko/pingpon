@@ -36,7 +36,7 @@ const MasterPageView: React.FC = () => {
                 <Redirect
                     exact={true}
                     from={routes.APP_URI}
-                    to={authenticationUser.role === 'Administrator' ? routes.USERS_URI : 'app/uuuuuu'} />
+                    to={authenticationUser.role === 'Administrator' ? routes.USERS_URI : 'app/'} />
 
                 {renderRoutes(authenticationUser.role)}
             </Switch>
