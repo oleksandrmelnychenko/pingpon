@@ -30,6 +30,7 @@ export const GameView: React.FC = () => {
     const gameManagement = useSelector<IApplicationState, GameManagementState>(state => state.gameManagement);
     const access_token = useSelector<IApplicationState, string>(state => state.authentication.token);
 
+    const userNetId = useSelector<IApplicationState, string>(state => state.authentication.netUid);
     useEffect(() => {
 
         const createHubConnection = async () => {
@@ -57,15 +58,17 @@ export const GameView: React.FC = () => {
         }
 
         createHubConnection();
-    }, [!hubConnection]);
+    }, []);
 
     const authenticationUser = useSelector<IApplicationState, any>((state) => state.authentication)
 
     const onCreateGame = async () => {
+        debugger
         await hubConnection.invoke('CreateGame', 'Olek')
     }
 
     const onJoinGame = async (id) => {
+        debugger
         await hubConnection.invoke('JoinGame', id)
     }
 
@@ -100,12 +103,12 @@ export const GameView: React.FC = () => {
                     <ul>
                         <li>
                             <div className="icon"><ApiOutlined /></div>
-                            <div className="value">{gameModel.hostUserNetId}</div>
+                            <div className="value">HostUserId: {gameModel.hostUserNetId}</div>
                         </li>
 
                         <li>
                             <div className="icon"><LinkOutlined /></div>
-                            <div className="value">{gameModel.id}</div>
+                            <div className="value">GameId: {gameModel.id}</div>
                         </li>
 
                         <li>
@@ -120,8 +123,9 @@ export const GameView: React.FC = () => {
                                 <div className="p_right">
                                     {
                                         gameModel.players.length === 1 ?
-                                            <Button type="link" size={"small"} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> :
-                                            <Button type="link" size={"small"} onClick={onStartGame}>Start game</Button>
+                                            gameModel.hostUserNetId !== userNetId ?
+                                                <Button type="link" size={"small"} disabled={false} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> : "Waiting player for connection..." :
+                                            <Button type="link" size={"small"} disabled={false} onClick={onStartGame}>Start game</Button>
                                     }
                                 </div>
                             </div>
@@ -129,40 +133,9 @@ export const GameView: React.FC = () => {
                     </ul>
                 </div>
 
-                { /*
-                <div key={key}>
-                    <div>
-                         <span>
-                            GAME: {gameModel.name}
-                        Id: {gameModel.id}
-                        HOSTED BY : {gameModel.hostUserNetId}
-                        </span>
-                         
-                        <div>
-                            Players:
-                    {
-                                gameModel.players.length === 1 ?
-                                    <div> WAITING FOR OTHER PLAYER
-                                    <Button type="primary" onClick={() => onJoinGame(gameModel.id)}>Join game</Button>
-
-                                    </div> :
-                                    <div onClick={onStartGame}>
-                                        START GAME
-                        </div>
-                            }
-
-                            <div>
-                                {
-                                    gameManagement.answers.map((answer, key) => <div key={key}>{answer}</div>)
-                                }
-                            </div>
-
-
-                           
-                        </div>
-                    </div>
-                </div>
-                    */}
+                {
+                    gameManagement.answers.map((answer, key) => <div key={key}>{answer}</div>)
+                }
             </>
         )
     }
