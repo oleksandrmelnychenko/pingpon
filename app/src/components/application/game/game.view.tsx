@@ -166,7 +166,7 @@ export const GameView: React.FC = () => {
             <Modal
                 title="Game"
                 centered
-                visible={!isOpenModalGame}
+                visible={isOpenModalGame}
                 footer={false}
                 onCancel={() => dispatch(gameManagementActions.isOpenModalGame(false))}
             >
