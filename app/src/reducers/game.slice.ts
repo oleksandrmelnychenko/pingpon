@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { stat } from "fs";
 import { GameModel } from "../components/application/game/game.model"
+import { PlayerModel } from "../components/application/game/player.model";
 
 
 export class GameManagementState {
@@ -22,7 +24,7 @@ const gameManagementSlice = createSlice({
             state.games = action.payload
         },
         setUpdatedPlayerScore(state, action) {
-            
+            state.games = action.payload
         },
         setAnswers(state, action) {
             state.answers = action.payload

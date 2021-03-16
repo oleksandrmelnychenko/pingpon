@@ -3,5 +3,7 @@ export class PlayerModel {
 
     public name: string;
 
-    public score:number;
+    public score: number;
+
+    public gameId: number;
 }

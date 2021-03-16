@@ -23,6 +23,7 @@ import {
 
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { debounce } from "rxjs/operators";
+import { GameStatus } from "./game.status";
 
 export const GameView: React.FC = () => {
     const dispatch = useDispatch();
@@ -34,7 +35,8 @@ export const GameView: React.FC = () => {
     const access_token = useSelector<IApplicationState, string>(state => state.authentication.token);
 
     const gameModal = useSelector<IApplicationState, GameModel>(state => state.gameManagement.gameModal);
-    console.log(gameModal);
+
+
 
     const userNetId = useSelector<IApplicationState, string>(state => state.authentication.netUid);
     const authenticationUser = useSelector<IApplicationState, any>((state) => state.authentication)
@@ -49,11 +51,12 @@ export const GameView: React.FC = () => {
             });
 
             hubConnect.on('ScoreUpdated', (response: any) => {
-                dispatch(gameManagementActions.setGames(response));
+                dispatch(gameManagementActions.setUpdatedPlayerScore(response));
+                dispatch(gameManagementActions.setGameModal(new GameModel()));
             });
 
             hubConnect.on('UpdateClientAnswers', (response: any) => {
-                  
+                debugger
                 dispatch(gameManagementActions.setAnswers(response));
             });
 
@@ -79,36 +82,37 @@ export const GameView: React.FC = () => {
     const renderPlayerTemplate = (player: PlayerModel, key: number) => {
         return (
             <div className="player__ITEM" key={key}>
-                {player.name} <span> - </span>
+                {player.name} <span className="score"> SCORE: {player.score} </span> <span className="line"> - </span>
             </div>
         )
     }
 
     const onStartGame = (gameModel) => {
-        hubConnection.invoke('StartGame', gameModel.id).catch(err => console.error(err.toString()));
-        dispatch(gameManagementActions.setGameModal(gameModel))
+        hubConnection.invoke('StartGame', gameModel.id).then(() => {
+            dispatch(gameManagementActions.setGameModal(gameModel))
+        }).catch(err => console.error(err.toString()));
     }
 
     const timeStoped = () => {
-          
+        debugger
     }
 
-    async function sendMessage(message: string): Promise<void> {
-        try {
-            if (hubConnection && message !== '') {
-                await hubConnection.invoke('CreateGame', message)
-            }
-        }
-        catch (err) {
-            console.error(err);
-        }
+    const onChangeScore = (gameModel) => {
+        hubConnection.invoke('UpdateClientAnswers').then(() => {
+            dispatch(gameManagementActions.setGameModal(gameModel))
+        });
+    }
+
+    const timeStoped = () => {
+        debugger
     }
 
     const renderGameTemplate = (gameModel: GameModel, key: number) => {
         return (
             <>
                 <div key={key} className={`card__mod_ITEM`}>
-                    <h2 className="item__NAME">{gameModel.name}</h2>
+                    <h2 className="item__NAME">{gameModel.name}
+                    </h2>
                     <ul>
                         <li>
                             <div className="icon"><ApiOutlined /></div>
@@ -127,6 +131,14 @@ export const GameView: React.FC = () => {
                                 {gameModel.players.map((p, k) => renderPlayerTemplate(p, k))}
                             </div>
                         </li>
+                        <li>
+                            <div className="icon"><UserSwitchOutlined /></div>
+                            <div className="value">
+                                <b>STATUS:</b>
+                                {gameModel.gameStatus === GameStatus.Completed ?
+                                    "Completed" : gameModel.gameStatus === GameStatus.Playing ? "Playing" : "Waiting"}
+                            </div>
+                        </li>
                         <li className="controls">
                             <div className="icon"></div>
                             <div className="value">
@@ -134,18 +146,22 @@ export const GameView: React.FC = () => {
                                     {
                                         gameModel.players.length === 1 ?
                                             gameModel.hostUserNetId !== userNetId ?
-                                                <Button type="link" size={"small"} disabled={false} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> : "Waiting player for connection..." :
-                                            gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={() => onStartGame(gameModel)}>Start game</Button> : "Waiting host to start..."
+                                                <Button type="link" size={"small"} disabled={false} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> :
+                                                "Waiting player for connection..." :
+                                            gameModel.hostUserNetId === userNetId ?
+                                                <Button type="link" size={"small"} disabled={false} onClick={() => onStartGame(gameModel)}>Start game</Button> :
+                                                gameModel.gameStatus === GameStatus.Waiting ? "Waiting host to start..." : null
                                     }
-
-                                    <Button type="link" size={"small"} disabled={false} onClick={() => onStartGame(gameModel)}>Start game</Button>
+                                    {
+                                        gameModel.players.some(c => c.score > 0) ?
+                                            gameModel.gameStatus === GameStatus.Playing ?
+                                                <Button type="link" size={"small"} disabled={false} onClick={() => onChangeScore(gameModel)}>Change score</Button> : null : null
+                                    }
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
-
-
             </>
         )
     }
@@ -180,6 +196,7 @@ export const GameView: React.FC = () => {
                 className="game__MODAL"
                 title={`Game: ${gameModal.name}`}
                 centered
+                destroyOnClose={true}
                 visible={gameModal.id > 0}
                 footer={false}
                 onCancel={() => dispatch(gameManagementActions.setGameModal({}))}
@@ -187,12 +204,11 @@ export const GameView: React.FC = () => {
                 <div className="answer__ITEMS">
                     {
                         gameManagement.answers.map((answer, key) =>
-                            <div className="answer__ITEM" key={key}><span>{answer}</span></div>
+                            <div className="answer__ITEM" onClick={() => onIncreasedScore(gameModal.id, answer)} key={key}><span>{answer}</span></div>
                         )
                     }
-
                     <div className="answer__ITEM timer">
-                        <FieldTimeOutlined className="timer__ICON" />
+                        <span className="timer__TITLE">Time to select Value</span>
                         <div className="time__WRAPPER">
                             <Timer
                                 initialTime={10000}
@@ -203,14 +219,11 @@ export const GameView: React.FC = () => {
                             >
                                 <Timer.Seconds />
                             </Timer>
-
-                            <span>Time to select Value</span>
                         </div>
                     </div>
                 </div>
 
             </Modal>
         </div>
-
     )
 }
