@@ -56,7 +56,6 @@ export const GameView: React.FC = () => {
             });
 
             hubConnect.on('UpdateClientAnswers', (response: any) => {
-                debugger
                 dispatch(gameManagementActions.setAnswers(response));
             });
 
@@ -93,8 +92,10 @@ export const GameView: React.FC = () => {
         }).catch(err => console.error(err.toString()));
     }
 
-    const timeStoped = () => {
-        debugger
+    const onIncreasedScore = (id, score) => {
+        hubConnection.invoke('IncreasePlayerScore', score, id).then(() => {
+
+        }).catch(err => console.error(err.toString()));
     }
 
     const onChangeScore = (gameModel) => {
@@ -177,7 +178,7 @@ export const GameView: React.FC = () => {
                         </div>
 
                         <div className="controls__RIGHT">
-                           
+
                             <Button type="primary" onClick={onCreateGame}>Start Game</Button>
                         </div>
                     </div>
@@ -199,19 +200,28 @@ export const GameView: React.FC = () => {
                 destroyOnClose={true}
                 visible={gameModal.id > 0}
                 footer={false}
-                onCancel={() => dispatch(gameManagementActions.setGameModal({}))}
+                onCancel={() => {
+                    dispatch(gameManagementActions.setGameModal({}));
+                    dispatch(gameManagementActions.setTimeFinished(false))
+                }}
             >
                 <div className="answer__ITEMS">
                     {
                         gameManagement.answers.map((answer, key) =>
-                            <div className="answer__ITEM" onClick={() => onIncreasedScore(gameModal.id, answer)} key={key}><span>{answer}</span></div>
+                            <div className={`answer__ITEM ${gameManagement.timeFinished ? 'isDisabled' : null}`} onClick={() => onIncreasedScore(gameModal.id, answer)} key={key}><span>{answer}</span></div>
                         )
                     }
                     <div className="answer__ITEM timer">
-                        <span className="timer__TITLE">{gameManagement.timeFinished ? "Time finished" : "There is time left"} </span>
+
+                        {
+                            gameManagement.timeFinished ?
+                                <span className="timer__TITLE" style={{ color: "red" }}>Time finished</span> :
+                                <span className="timer__TITLE">There is time left</span>
+                        }
+
                         <div className="time__WRAPPER">
                             <Timer
-                                initialTime={10000} 
+                                initialTime={10000}
                                 timeToUpdate={1000}
                                 direction="backward"
                                 checkpoints={

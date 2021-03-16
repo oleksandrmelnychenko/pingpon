@@ -1,6 +1,6 @@
 export class API {
-    //public static readonly SERVER_URL = 'http://78.152.175.67:15017/'
-    public static readonly SERVER_URL = ' http://localhost:5000/'
+    public static readonly SERVER_URL = 'http://78.152.175.67:15017/'
+    //public static readonly SERVER_URL = ' http://localhost:5000/'
 
     public static readonly API_PART = 'api/v1/'
 
