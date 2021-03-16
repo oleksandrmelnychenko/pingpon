@@ -112,10 +112,6 @@ export const GameView: React.FC = () => {
                             <div className="icon"><UserSwitchOutlined /></div>
                             <div className="value">
                                 {gameModel.players.map((p, k) => renderPlayerTemplate(p, k))}
-
-                                {/*<b>Start Date</b> {Moment(projectItem.PlannedStartDate).format('MM-DD-YYYY')}*/}
-                                {/*{' - '}*/}
-                                {/*<b>Finish Date</b> {Moment(projectItem.PlannedEndDate).format('MM-DD-YYYY')}*/}
                             </div>
                         </li>
                         <li className="controls">
