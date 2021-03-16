@@ -198,7 +198,40 @@ export const apiUpdateUserEpic = (action$, state$: IServiceApplicationState) => 
                             message: response.response.Body,
                             className: 'notification_item',
                         })
+
                         return of(push('/app/users'))
+                    }),
+                    catchError((error: any) => {
+                        return ErrorHandler(error)
+                    })
+                )
+        }
+        )
+    )
+}
+
+export const apiUpdateCurrentUserEpic = (action$, state$: IServiceApplicationState) => {
+    return action$.pipe(
+        ofType(userManagementActions.apiUpdateCurrentUser.type),
+        switchMap((action: any) => {
+
+            return ajax
+                .post(`${API.SERVER_URL}${API.UserIdentityEndPoints.UPDATE_USER_PROFILE}`,
+                    action.payload,
+                    {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${state$.value.authentication.token}`
+                    }
+                )
+                .pipe(
+                    mergeMap((response: any) => {
+                        notification.success({
+                            description: '',
+                            message: response.response.Body,
+                            className: 'notification_item',
+                        })
+
+                        return of()
                     }),
                     catchError((error: any) => {
                         return ErrorHandler(error)

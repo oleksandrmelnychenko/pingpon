@@ -39,6 +39,7 @@ const userManagementSlice = createSlice({
         apiGetUserProfileByNetId(state, action) { },
         apiNewUser(state, action) { },
         apiUpdateUser(state, action) { },
+        apiUpdateCurrentUser(state, action) { },
         apiChangeUserPassword(state, action) { },
         resetUserManagementStore(state) {
             return UserManagementState;
