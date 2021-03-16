@@ -11,7 +11,7 @@ export class GameManagementState {
 export const DefaultGameManagementState: GameManagementState = {
     games: [],
     answers: [],
-    isOpenModalGame: false
+    isOpenModalGame: true
 }
 
 const gameManagementSlice = createSlice({
@@ -20,6 +20,9 @@ const gameManagementSlice = createSlice({
     reducers: {
         setGames(state, action) {
             state.games = action.payload
+        },
+        setUpdatedPlayerScore(state, action) {
+            
         },
         setAnswers(state, action) {
             state.answers = action.payload

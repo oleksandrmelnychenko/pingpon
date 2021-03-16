@@ -39,16 +39,17 @@ export const GameView: React.FC = () => {
         const hubConnect = new HubConnectionBuilder().withUrl(API.SERVER_URL + API.GAME_HUB, { accessTokenFactory: () => access_token }).build();
 
         try {
-           
+
             hubConnect.on('GameUpdated', (response: any) => {
-                 dispatch(gameManagementActions.setGames(response));
+                dispatch(gameManagementActions.setGames(response));
             });
 
             hubConnect.on('ScoreUpdated', (response: any) => {
-
+                dispatch(gameManagementActions.setGames(response));
             });
 
             hubConnect.on('UpdateClientAnswers', (response: any) => {
+                debugger
                 dispatch(gameManagementActions.setAnswers(response));
             });
 
@@ -79,8 +80,8 @@ export const GameView: React.FC = () => {
         )
     }
 
-    const onStartGame = async () => {
-        dispatch(gameManagementActions.isOpenModalGame(true))
+    const onStartGame = (id) => {
+        hubConnection.invoke('StartGame',id).catch(err => console.error(err.toString()));
     }
 
     async function sendMessage(message: string): Promise<void> {
@@ -125,7 +126,7 @@ export const GameView: React.FC = () => {
                                         gameModel.players.length === 1 ?
                                             gameModel.hostUserNetId !== userNetId ?
                                                 <Button type="link" size={"small"} disabled={false} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> : "Waiting player for connection..." :
-                                                gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={onStartGame}>Start game</Button>:"Waiting host to start..."
+                                            gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={() => onStartGame(gameModel.id)}>Start game</Button> : "Waiting host to start..."
                                     }
                                 </div>
                             </div>
