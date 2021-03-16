@@ -10,6 +10,7 @@ import { AuthenticationState } from "../../../reducers/authentication.slice";
 import { gameManagementActions, GameManagementState } from "../../../reducers/game.slice";
 import { GameModel } from "./game.model";
 import { PlayerModel } from "./player.model";
+import Timer from 'react-compound-timer';
 
 import {
     UserSwitchOutlined,
@@ -189,7 +190,15 @@ export const GameView: React.FC = () => {
 
                     <div className="answer__ITEM timer">
                         <FieldTimeOutlined className="timer__ICON" />
-                        <span>10</span>
+                        <span>
+                            <Timer
+                                initialTime={10000}
+                                direction="backward"
+                                onStop={() => { debugger }}
+                            >
+                                <Timer.Seconds />
+                            </Timer>
+                        </span>
                     </div>
                 </div>
                 {
