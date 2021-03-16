@@ -14,12 +14,14 @@ import { PlayerModel } from "./player.model";
 import {
     UserSwitchOutlined,
     LinkOutlined,
-    ApiOutlined
+    ApiOutlined,
+    FieldTimeOutlined
 } from '@ant-design/icons';
 
 
 
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { debounce } from "rxjs/operators";
 
 export const GameView: React.FC = () => {
     const dispatch = useDispatch();
@@ -30,7 +32,8 @@ export const GameView: React.FC = () => {
     const gameManagement = useSelector<IApplicationState, GameManagementState>(state => state.gameManagement);
     const access_token = useSelector<IApplicationState, string>(state => state.authentication.token);
 
-    const isOpenModalGame = useSelector<IApplicationState, boolean>(state => state.gameManagement.isOpenModalGame);
+    const gameModal = useSelector<IApplicationState, GameModel>(state => state.gameManagement.gameModal);
+    console.log(gameModal);
 
     const userNetId = useSelector<IApplicationState, string>(state => state.authentication.netUid);
     const authenticationUser = useSelector<IApplicationState, any>((state) => state.authentication)
@@ -74,9 +77,9 @@ export const GameView: React.FC = () => {
 
     const renderPlayerTemplate = (player: PlayerModel, key: number) => {
         return (
-            <React.Fragment key={key}>
-                {player.name}
-            </React.Fragment>
+            <div className="player__ITEM" key={key}>
+                {player.name} <span> - </span>
+            </div>
         )
     }
 
@@ -126,8 +129,14 @@ export const GameView: React.FC = () => {
                                         gameModel.players.length === 1 ?
                                             gameModel.hostUserNetId !== userNetId ?
                                                 <Button type="link" size={"small"} disabled={false} onClick={() => onJoinGame(gameModel.id)}>Join game</Button> : "Waiting player for connection..." :
+<<<<<<< HEAD
                                             gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={() => onStartGame(gameModel.id)}>Start game</Button> : "Waiting host to start..."
+=======
+                                            gameModel.hostUserNetId === userNetId ? <Button type="link" size={"small"} disabled={false} onClick={() => onStartGame(gameModel)}>Start game</Button> : "Waiting host to start..."
+>>>>>>> a309192e5edfbe5a1443ff08e4966721c727b168
                                     }
+
+                                    <Button type="link" size={"small"} disabled={false} onClick={() => onStartGame(gameModel)}>Start game</Button>
                                 </div>
                             </div>
                         </li>
@@ -166,11 +175,11 @@ export const GameView: React.FC = () => {
 
             <Modal
                 className="game__MODAL"
-                title="Game"
+                title={`Game: ${gameModal.name}`}
                 centered
-                visible={!isOpenModalGame}
+                visible={gameModal.id > 0}
                 footer={false}
-                onCancel={() => dispatch(gameManagementActions.isOpenModalGame(false))}
+                onCancel={() => dispatch(gameManagementActions.setGameModal({}))}
             >
                 <div className="answer__ITEMS">
                     <div className="answer__ITEM">
@@ -181,6 +190,11 @@ export const GameView: React.FC = () => {
                     </div>
                     <div className="answer__ITEM">
                         <span>20</span>
+                    </div>
+
+                    <div className="answer__ITEM timer">
+                        <FieldTimeOutlined className="timer__ICON" />
+                        <span>10</span>
                     </div>
                 </div>
                 {
