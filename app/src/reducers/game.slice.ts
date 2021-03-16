@@ -21,6 +21,9 @@ const gameManagementSlice = createSlice({
         setGames(state, action) {
             state.games = action.payload
         },
+        setUpdatedPlayerScore(state, action) {
+            
+        },
         setAnswers(state, action) {
             state.answers = action.payload
         },
