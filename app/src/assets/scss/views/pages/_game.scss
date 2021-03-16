@@ -107,18 +107,44 @@
     }
 }
 
-.answer__ITEMS {
-    width: 640px;
-    height: 200px;
-    position: relative;
-    display: flex;
-}
+.game__MODAL {
+    width: auto!important;
 
-.answer__ITEM {
-    width: 200px;
-    height: 200px;
-    margin: 0 10px 10px 0;
-    background: #fbfbfb;
-    box-shadow: 1px 3px 1px #eaeaea;
-    float: left;
+    .answer__ITEMS {
+        width: 520px;
+        height: 160px;
+        display: flex;
+        padding-left: 10px;
+        position: relative;
+    }
+
+    .answer__ITEM {
+        width: 160px;
+        height: 160px;
+        margin: 0 10px 10px 0;
+        background: #fbfbfb;
+        box-shadow: 1px 3px 1px #eaeaea;
+        float: left;
+        text-align: center;
+        line-height: 150px;
+        position: relative;
+
+        span {
+            font-family: $font_app;
+            font-style: normal;
+            font-size: 31px;
+            color: #333;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            &:before {
+                content: '';
+                @include position_absolute(0,0,0,0);
+                pointer-events: none;
+                border: 2px solid #1890ff;
+            }
+        }
+    }
 }
