@@ -8,12 +8,14 @@ export class GameManagementState {
     games: Array<GameModel>;
     answers: Array<number>;
     gameModal: GameModel;
+    timeFinished: boolean;
 }
 
 export const DefaultGameManagementState: GameManagementState = {
     games: [],
     answers: [],
-    gameModal: new GameModel()
+    gameModal: new GameModel(),
+    timeFinished: false
 }
 
 const gameManagementSlice = createSlice({
@@ -28,6 +30,9 @@ const gameManagementSlice = createSlice({
         },
         setAnswers(state, action) {
             state.answers = action.payload
+        },
+        setTimeFinished(state, action) {
+            state.timeFinished = action.payload
         },
         setGameModal(state, action) {
             state.gameModal = action.payload

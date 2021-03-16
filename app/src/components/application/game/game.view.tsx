@@ -104,8 +104,8 @@ export const GameView: React.FC = () => {
         });
     }
 
-    const timeStoped = () => {
-        debugger
+    const timeFinished = () => {
+        dispatch(gameManagementActions.setTimeFinished(true));
     }
 
     const renderGameTemplate = (gameModel: GameModel, key: number) => {
@@ -209,14 +209,20 @@ export const GameView: React.FC = () => {
                         )
                     }
                     <div className="answer__ITEM timer">
-                        <span className="timer__TITLE">Time to select Value</span>
+                        <span className="timer__TITLE">{gameManagement.timeFinished ? "Time finished" : "There is time left"} </span>
                         <div className="time__WRAPPER">
                             <Timer
-                                initialTime={10000}
+                                initialTime={10000} 
                                 timeToUpdate={1000}
                                 direction="backward"
-                                onStop={() => timeStoped}
-
+                                checkpoints={
+                                    [
+                                        {
+                                            time: 0,
+                                            callback: () => timeFinished()
+                                        }
+                                    ]
+                                }
                             >
                                 <Timer.Seconds />
                             </Timer>
