@@ -71,7 +71,7 @@ export const UserProfileView: React.FC = () => {
     });
 
     const initialValues = () => {
-          
+
         if (selectedUser.Id > 0 && userProfileId) {
             return {
                 name: selectedUser.UserName,
@@ -111,6 +111,8 @@ export const UserProfileView: React.FC = () => {
                                     initialValues={initialValues()}
                                     enableReinitialize
                                     onSubmit={(values) => {
+                                          
+
                                         let roleDescription = getIdentityRoleModel(values.role.toString());
 
                                         if (
@@ -127,8 +129,9 @@ export const UserProfileView: React.FC = () => {
                                                 RoleDescription: roleDescription.Description,
                                                 City: values.city
                                             }
-                                              
+
                                             dispatch(userManagementActions.apiUpdateUser(data))
+
                                         } else if ((GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator)) {
                                             const data: any = {
                                                 ...selectedUser,
@@ -140,8 +143,20 @@ export const UserProfileView: React.FC = () => {
                                                 City: values.city,
                                                 Password: values.password
                                             }
-                                              
+
                                             dispatch(userManagementActions.apiNewUser(data))
+
+                                        } else if (GetIdentityRole(authenticationUser.role) === IdentityRoles.User) {
+                                            
+                                            const data = {
+                                                ...selectedUser,
+                                                Email: values.email,
+                                                UserName: values.name,
+                                                DisplayName: values.name,
+                                                City: values.city
+                                            }
+
+                                            dispatch(userManagementActions.apiUpdateCurrentUser(data))
                                         }
                                     }}>
                                     {(formik) => {
@@ -160,29 +175,34 @@ export const UserProfileView: React.FC = () => {
                                                     <div className="required_field">*</div>
                                                 </div>
 
-                                                <div className="input__CONTROL full_w">
-                                                    <label className="rowGroup__TITLE">Role</label>
-                                                    <Field
-                                                        className="ant-input"
-                                                        as="select"
-                                                        name="role"
+                                                {
+                                                    GetIdentityRole(authenticationUser.role) !== IdentityRoles.User ?
+                                                        < div className="input__CONTROL full_w">
+                                                            <label className="rowGroup__TITLE">Role</label>
+                                                            <Field
+                                                                className="ant-input"
+                                                                as="select"
+                                                                name="role"
 
-                                                        onChange={(field) => {
-                                                            let currentTargetValue = field.currentTarget.value;
-                                                            formik.setFieldValue('role', currentTargetValue);
-                                                            formik.setFieldTouched('role');
+                                                                onChange={(field) => {
+                                                                    let currentTargetValue = field.currentTarget.value;
+                                                                    formik.setFieldValue('role', currentTargetValue);
+                                                                    formik.setFieldTouched('role');
 
 
-                                                            dispatch(userManagementActions.setRole(getIdentityRoleModel(currentTargetValue)))
-                                                        }}>
-                                                        {
-                                                            roles.length > 0 && roles.map((role, v) =>
-                                                                <option key={v} value={role.Value}>{role.Description}</option>
-                                                            )
-                                                        }
-                                                    </Field>
+                                                                    dispatch(userManagementActions.setRole(getIdentityRoleModel(currentTargetValue)))
+                                                                }}>
+                                                                {
+                                                                    roles.length > 0 && roles.map((role, v) =>
+                                                                        <option key={v} value={role.Value}>{role.Description}</option>
+                                                                    )
+                                                                }
+                                                            </Field>
 
-                                                </div>
+                                                        </div> : null
+                                                }
+
+
 
                                                 <div className="input__CONTROL full_w">
                                                     <label className="rowGroup__TITLE">Email</label>

@@ -124,6 +124,7 @@ export const UsersView: React.FC = () => {
                         {
                             (GetIdentityRole(authenticationUser.role) === IdentityRoles.Administrator) ?
                                 <div className="controls__RIGHT">
+                                    <Button type="primary" onClick={() => { }} style={{ marginRight: 10, backgroundColor: '#3ca935', borderColor: '#3ca935' }}>Import</Button>
                                     <Button type="primary" onClick={onCreateProject}> Create User</Button>
                                 </div> : null
                         }

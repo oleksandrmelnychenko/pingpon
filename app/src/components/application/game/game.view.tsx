@@ -56,6 +56,7 @@ export const GameView: React.FC = () => {
             });
 
             hubConnect.on('UpdateClientAnswers', (response: any) => {
+                debugger
                 dispatch(gameManagementActions.setAnswers(response));
             });
 
@@ -92,10 +93,8 @@ export const GameView: React.FC = () => {
         }).catch(err => console.error(err.toString()));
     }
 
-    const onIncreasedScore = (id, score) => {
-        hubConnection.invoke('IncreasePlayerScore', score, id).then(() => {
-
-        }).catch(err => console.error(err.toString()));
+    const timeStoped = () => {
+        debugger
     }
 
     const onChangeScore = (gameModel) => {
@@ -178,7 +177,7 @@ export const GameView: React.FC = () => {
                         </div>
 
                         <div className="controls__RIGHT">
-                            <Button type="primary" onClick={() => { }} style={{ marginRight: 10, backgroundColor: '#3ca935', borderColor: '#3ca935' }}>Import</Button>
+                           
                             <Button type="primary" onClick={onCreateGame}>Start Game</Button>
                         </div>
                     </div>
